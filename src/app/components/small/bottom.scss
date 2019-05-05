@@ -1,0 +1,24 @@
+.bottom {
+
+    margin-left: 20%;
+    width: 60%;
+    height: 80vh * 0.13;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-direction: column;
+
+    background: url(../../../assets/hall/new_icon.24b9ee21.png);
+    background-position: center;
+    background-size: cover;
+
+    .down-word {
+
+        width: 100%;
+        text-align: center;
+        color: rgb(183, 163, 102);
+        font-size: 13px;
+        font-weight: 600;
+        padding: 3px;
+    }
+}

@@ -1,0 +1,54 @@
+.banner {
+    width: 100%;
+    height: 400px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .carousel {
+        width: 100%;
+        height: 100%;
+
+        .carousel-img {
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    .left-icon {
+        position: absolute;
+        left: 0;
+        bottom: 3vw;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+
+        .left-img {
+            width: 250px;
+            // height: 50%;
+        }
+
+        .word {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 900;
+            margin-bottom: 3vw;
+        }
+    }
+
+    .bottom-icon {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        // height: 80px;
+
+        // display: none;
+
+        .bottim-img {
+            width: 100%;
+            // height: 80px;
+        }
+    }
+}
