@@ -170,7 +170,7 @@ export default class Content extends Component<Props, State> {
                         src={this.iframe.src}
                         className={this.iframe.className}
                         title={this.iframe.title}
-                        allow="autoplay"
+                        // allow="autoplay"
                         style={Object.assign(
                             {
                                 padding: 0,
