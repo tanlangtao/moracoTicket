@@ -78,7 +78,6 @@ class App extends Component {
         Global.hostManager.jumpHost = Global.package.jump_host[0];
         Global.hostManager.tempHost = Global.package.temp_host[0];
         Global.hostManager.proxyHost = Global.package.proxy_host[0];
-        Global.hostManager.webSourceHost = Global.package.web_source_host[0];
     }
 
     async get(url: string, params: any) {

@@ -6,7 +6,6 @@ export interface Package {
     pay_host: string[];
     im_host: string[];
     source_host: string[];
-    web_source_host: string[];
     entry_host: string[];
     jump_host: string[];
     temp_host: string[];
