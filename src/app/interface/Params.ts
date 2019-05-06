@@ -7,4 +7,5 @@ export interface Params {
     proxy_user_id: number;
     is_regin: number;
     mode: string;
+    token: string;
 }

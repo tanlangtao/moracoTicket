@@ -62,20 +62,17 @@ export function parseURL() {
     let q = qs.parse(query);
     if (!q.package_info) return false;
     if (!q.params) return false;
-    if (!q.token) return false;
 
     let params = {};
     let packageInfo = {};
-    let token = "";
 
     try {
-        params = JSON.parse(atob(q.params as string));
-        packageInfo = JSON.parse(atob(decodeURIComponent(q.package_info as string) as string));
-        token = atob(q.token as string);
+        params = JSON.parse(decodeURIComponent(atob(q.params as string)));
+        packageInfo = JSON.parse(decodeURIComponent(atob(q.package_info as string) as string));
     } catch (error) {
         console.log(error);
         return false;
     }
 
-    return { params, packageInfo, token };
+    return { params, packageInfo };
 }

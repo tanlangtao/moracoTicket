@@ -84,15 +84,15 @@ export default class Content extends Component<Props, State> {
     render() {
         let game_type_2 = Global.gameList
             .filter(e => e.type === 2)
-            .map(e => (
-                <div onClick={() => this.onGame(e)}>
+            .map((e, i) => (
+                <div onClick={() => this.onGame(e)} key={i}>
                     <Icon src={e.web_game_img} className="game" />
                 </div>
             ));
         let game_type_1 = Global.gameList
             .filter(e => e.type === 1)
-            .map(e => (
-                <div onClick={() => this.onGame(e)}>
+            .map((e, i) => (
+                <div onClick={() => this.onGame(e)} key={i}>
                     <Icon src={e.web_game_img} className="game" />
                 </div>
             ));

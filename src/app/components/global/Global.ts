@@ -8,9 +8,6 @@ class Global {
     // MODE
     mode = "dev";
 
-    //TOKEN
-    token = "";
-
     // OS
     os = "desktop";
 

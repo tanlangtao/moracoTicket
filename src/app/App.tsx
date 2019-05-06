@@ -23,15 +23,14 @@ class App extends Component {
 
         // PARSE URL
         let info = parseURL();
-        console.log(info);
+
         if (info === false) return this.error();
 
         // ENTRY INFO
         let params: Params = info.params as Params;
         let packageInfo: Package = info.packageInfo as Package;
-        let token: string = info.token;
 
-        this.getPackage(params, packageInfo, token);
+        this.getPackage(params, packageInfo);
 
         this.getGameList();
     }
@@ -39,7 +38,7 @@ class App extends Component {
     async getGameList() {
         // GET GAME LIST
         let gameList = await this.get(Global.hostManager.serverHost + Global.package.get_game_list, {
-            token: Global.token,
+            token: Global.params.token,
             package_id: Global.params.package_id
         });
         if (!gameList.data || gameList.data.code !== 200) {
@@ -53,10 +52,8 @@ class App extends Component {
         this.ready();
     }
 
-    getPackage(params: Params, packageInfo: Package, token: string) {
+    getPackage(params: Params, packageInfo: Package) {
         // SYSTEMS INFO
-
-        Global.token = token;
 
         Global.os = "desktop";
 
