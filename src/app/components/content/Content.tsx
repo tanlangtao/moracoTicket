@@ -186,14 +186,14 @@ export default class Content extends Component<Props, State> {
                         )}
                     />
 
-                    <div className="position-bottom">
+                    {/* <div className="position-bottom">
                         <Button type="primary" ghost onClick={() => this.randomGame()}>
                             下一个游戏
                         </Button>
                         <Button type="danger" ghost onClick={() => this.onClose()}>
                             关闭游戏
                         </Button>
-                    </div>
+                    </div> */}
                 </Modal>
             </div>
         );
