@@ -8,7 +8,8 @@ import { UserInfo } from "../../interface/User";
 import Storage from "../../components/storage/Storage";
 import Global from "../../components/global/Global";
 import { RouterProps } from "react-router";
-import Socket from "../../lib/Socket";
+import Socket from "lows";
+
 import { Modal, message } from "antd";
 
 type State = { userInfo: UserInfo; isLogin: boolean };
@@ -25,8 +26,7 @@ export default class Index extends Component<RouterProps, State> {
     };
 
     socket: Socket = new Socket({
-        host: Global.hostManager.serverHost.replace("https://", "").replace("http://", ""),
-        port: 80,
+        host: Global.hostManager.serverHost,
         heartInterval: 5
     });
 

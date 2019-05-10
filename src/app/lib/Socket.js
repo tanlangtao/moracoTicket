@@ -42,12 +42,48 @@ export default class Socket {
     }
 
     connect() {
-        console.log("开始连接服务器", this.config.host, this.config.port, this.config.path || "/");
+        let index = this.config.host.indexOf("://");
+        let prefix = this.config.host.slice(0, index);
+        let host = this.config.host.slice(index + 3);
+        let port = this.config.port;
+        let path = this.config.path;
+
+        let proto = "ws://";
+
+        switch (prefix) {
+            case "https":
+                proto = "wss://";
+                port = port || 443;
+                break;
+
+            case "http":
+                proto = "ws://";
+                port = port || 80;
+                break;
+
+            case "wss":
+                proto = "wss://";
+                port = port || 443;
+                break;
+
+            case "ws":
+                proto = "ws://";
+                port = port || 80;
+                break;
+
+            default:
+                proto = "ws://";
+                port = port || 80;
+                break;
+        }
+
+        console.log("开始连接服务器", `${proto}${host}:${port}${path || "/"}`);
+
         // 清除两个定时器
         clearInterval(this.t);
         clearTimeout(this.ct);
         // 连接WS服务器
-        this.server = new WebSocket(`ws://${this.config.host}:${this.config.port}${this.config.path || "/"}`);
+        this.server = new WebSocket(`${proto}${host}:${port}${path || "/"}`);
         // 连接成功事件
         this.server.onopen = this.onopen.bind(this);
         // 收到消息事件
@@ -61,11 +97,11 @@ export default class Socket {
     }
 
     onopen() {
-        // 开启成功回调 每次断线重连 都要重新执行的函数
-        this.callback.call(this, this);
         this.status = true;
         this.error = false;
         this.startTimes++;
+        // 开启成功回调 每次断线重连 都要重新执行的函数
+        this.callback.call(this, this);
         console.log("连接成功");
     }
 
@@ -110,10 +146,8 @@ export default class Socket {
         // 心跳检测 发送空字符 目前WEBSOCKET不支持PING 仅支持自动返回PONG帧
         this.t = setInterval(() => {
             try {
-                if (this.status && !this.nologin) {
-                    // console.log('HEART')
-                    this.server.send("");
-                }
+                if (this.nologin || this.error || !this.status) return false;
+                this.server.send("");
             } catch (error) {
                 console.log("心跳错误:", error);
             }
@@ -122,6 +156,8 @@ export default class Socket {
 
     emit(event, message) {
         // 发送消息事件
+        if (this.nologin || this.error || !this.status) return false;
+
         try {
             message = message || {};
             this.server.send(
