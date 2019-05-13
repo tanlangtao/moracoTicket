@@ -179,8 +179,8 @@ export default class Content extends Component<Props, State> {
                                 overflow: "hidden",
                                 height: this.iframe.height,
                                 width: this.iframe.width,
-                                maxHeight: this.iframe.height,
-                                maxWidth: this.iframe.width
+                                maxHeight: "80vh",
+                                maxWidth: "80vw"
                             },
                             this.iframe.style
                         )}
