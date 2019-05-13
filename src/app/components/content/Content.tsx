@@ -162,7 +162,7 @@ export default class Content extends Component<Props, State> {
                     footer={null}
                     destroyOnClose={true}
                     // onCancel={() => this.onClose()}
-                    bodyStyle={{ padding: 0, margin: 0, height: this.iframe.height, maxHeight: this.iframe.height, maxWidth: this.iframe.width }}
+                    bodyStyle={{ padding: 0, margin: 0, height: this.iframe.height, maxHeight: "80vh", maxWidth: "80vw" }}
                     closable={false}
                     maskClosable={false}
                 >
