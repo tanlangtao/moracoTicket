@@ -158,11 +158,18 @@ export default class Content extends Component<Props, State> {
                 </div>
                 <Modal
                     visible={this.state.visible}
-                    width={this.iframe.width}
+                    width={this.iframe.width + "px"}
                     footer={null}
                     destroyOnClose={true}
                     // onCancel={() => this.onClose()}
-                    bodyStyle={{ padding: 0, margin: 0, height: this.iframe.height, maxHeight: "80vh", maxWidth: "80vw" }}
+                    bodyStyle={{
+                        padding: 0,
+                        margin: 0,
+                        height: this.iframe.height + "px",
+                        width: this.iframe.width + "px",
+                        maxHeight: "80vh",
+                        maxWidth: "80vw"
+                    }}
                     closable={false}
                     maskClosable={false}
                 >
@@ -177,8 +184,8 @@ export default class Content extends Component<Props, State> {
                                 margin: 0,
                                 border: "none",
                                 overflow: "hidden",
-                                height: this.iframe.height,
-                                width: this.iframe.width,
+                                height: this.iframe.height + "px",
+                                width: this.iframe.width + "px",
                                 maxHeight: "80vh",
                                 maxWidth: "80vw"
                             },
