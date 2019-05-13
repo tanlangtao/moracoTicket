@@ -6,12 +6,10 @@ import { Modal, Button } from "antd";
 import Global from "../global/Global";
 import Index from "../../pages/index/Index";
 import { Game } from "../../interface/GameList";
+import Progress from "../progress/Progress";
 
 type Props = { app: Index };
 type State = { visible: boolean };
-
-const width = 736 * 1.5;
-const height = 414 * 1.5;
 
 export default class Content extends Component<Props, State> {
     state = {
@@ -23,6 +21,8 @@ export default class Content extends Component<Props, State> {
     currentGame: Game | null = null;
 
     iframe = { width: 0, src: "", className: "", height: 0, style: {}, title: "" };
+
+    progress!: Progress | null;
 
     onClose() {
         this.setState({ visible: false });
@@ -70,8 +70,8 @@ export default class Content extends Component<Props, State> {
             `&env=${Global.mode}` +
             `&time=${Date.now()}`;
 
-        this.iframe.height = height;
-        this.iframe.width = width;
+        this.iframe.height = game.height;
+        this.iframe.width = game.width;
         this.iframe.title = "proxy";
         this.iframe.src = src;
         this.iframe.className = "iframe";
@@ -162,7 +162,7 @@ export default class Content extends Component<Props, State> {
                     footer={null}
                     destroyOnClose={true}
                     // onCancel={() => this.onClose()}
-                    bodyStyle={{ padding: 0, margin: 0, height: this.iframe.height, maxHeight: "80vh", maxWidth: "80vw" }}
+                    bodyStyle={{ padding: 0, margin: 0, height: this.iframe.height, maxHeight: this.iframe.height, maxWidth: this.iframe.width }}
                     closable={false}
                     maskClosable={false}
                 >
@@ -179,21 +179,23 @@ export default class Content extends Component<Props, State> {
                                 overflow: "hidden",
                                 height: this.iframe.height,
                                 width: this.iframe.width,
-                                maxHeight: "80vh",
-                                maxWidth: "80vw"
+                                maxHeight: this.iframe.height,
+                                maxWidth: this.iframe.width
                             },
                             this.iframe.style
                         )}
                     />
 
-                    {/* <div className="position-bottom">
-                        <Button type="primary" ghost onClick={() => this.randomGame()}>
+                    <Progress ref={progress => (this.progress = progress)} />
+
+                    <div className="position-bottom">
+                        {/* <Button type="primary" ghost onClick={() => this.randomGame()}>
                             下一个游戏
-                        </Button>
+                        </Button> */}
                         <Button type="danger" ghost onClick={() => this.onClose()}>
                             关闭游戏
                         </Button>
-                    </div> */}
+                    </div>
                 </Modal>
             </div>
         );

@@ -20,6 +20,7 @@ export default class Index extends Component<RouterProps, State> {
             game_user: {},
             proxy_user: {},
             prev_proxy: {},
+            proxy_rule: {},
             account: { game: { account: {} } }
         } as UserInfo,
         isLogin: false
@@ -118,12 +119,23 @@ export default class Index extends Component<RouterProps, State> {
 
     onPostMessage(e: MessageEvent) {
         let m = JSON.parse(e.data);
-        console.log(e.data);
-        if (m.type === "__backtohall") {
-            this.header!.onClose();
-        }
-        if (m.type === "__back") {
-            this.content!.onClose();
+
+        switch (m.type) {
+            case "__backtohall":
+                this.header!.onClose();
+                break;
+            case "__back":
+                this.content!.onClose();
+                break;
+
+            case "__progress":
+                this.content!.progress!.onProgress(m.data);
+                break;
+            case "__done":
+                this.content!.progress!.close();
+                break;
+            default:
+                break;
         }
     }
 

@@ -27,7 +27,7 @@ class UserTips extends Component<Props, State> {
         Modal.confirm({
             title: "确定要退出登录吗?",
             cancelText: "再玩一会",
-            okText: "去吃饭",
+            okText: "退出",
             onOk: () => {
                 Storage.delUserInfo();
                 // this.props.app.login();

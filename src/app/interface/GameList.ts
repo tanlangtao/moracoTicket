@@ -16,4 +16,6 @@ export interface Game {
     type: number;
     web_game_img: string;
     web_down_webgl: string;
+    width: number;
+    height: number;
 }

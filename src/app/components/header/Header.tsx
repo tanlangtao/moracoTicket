@@ -22,14 +22,23 @@ export default class Header extends Component<Props, State> {
     app = this.props.app;
 
     // TITLES
-    navs = {
-        游戏大厅: () => gameHall(),
-        消息: () => news(this),
-        宝友: () => im(this),
-        兑换: () => topDown(this),
-        充值: () => topUp(this),
-        代理: () => proxy(this)
-    };
+    navs =
+        this.app.state.userInfo.proxy_rule.income === 0
+            ? {
+                  游戏大厅: () => gameHall(),
+                  消息: () => news(this),
+                  宝友: () => im(this),
+                  兑换: () => topDown(this),
+                  充值: () => topUp(this)
+              }
+            : {
+                  游戏大厅: () => gameHall(),
+                  消息: () => news(this),
+                  宝友: () => im(this),
+                  兑换: () => topDown(this),
+                  充值: () => topUp(this),
+                  代理: () => proxy(this)
+              };
 
     state = {
         visible: false,

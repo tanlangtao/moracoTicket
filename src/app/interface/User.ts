@@ -1,8 +1,25 @@
 export interface UserInfo {
     game_user: GameUser;
+    proxy_rule: ProxyRule;
     account: Account;
     proxy_user: ProxyUser;
     prev_proxy: ProxyUser;
+}
+
+export interface ProxyRule {
+    _id: number;
+    proxy_user_id: number;
+    income: number;
+    income_percent: number;
+    situation: Situation[];
+}
+
+export interface Situation {
+    max: number;
+    min: number;
+    max_number: number;
+    left_number: number;
+    unique_id: number;
 }
 
 export interface Account {
@@ -50,6 +67,7 @@ export interface GameUser {
     phone_number: string;
     status: number;
     game_user_type: number;
+    role_name: string;
     game_img: string;
     package_id: number;
     device_id: string;
