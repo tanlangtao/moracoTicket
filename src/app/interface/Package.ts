@@ -23,8 +23,10 @@ export interface Desktop {
     proxy_down_url: string;
     im_down_url: string;
     pay_down_url: string;
+    house_down_url: string;
     hall_version: string;
     proxy_version: string;
     im_version: string;
     pay_version: string;
+    house_version: string;
 }
