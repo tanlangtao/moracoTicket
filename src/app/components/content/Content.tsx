@@ -2,11 +2,13 @@ import React, { Component } from "react";
 
 import "./content.scss";
 import Icon from "../small/Icon";
-import { Modal, Button } from "antd";
+import { Modal, Button, message } from "antd";
 import Global from "../global/Global";
 import Index from "../../pages/index/Index";
 import { Game } from "../../interface/GameList";
 import Progress from "../progress/Progress";
+import Services from "../../services/Services";
+import Storage from "../storage/Storage";
 
 type Props = { app: Index };
 type State = { visible: boolean };
@@ -49,6 +51,16 @@ export default class Content extends Component<Props, State> {
             return this.app.userTips!.login();
         }
 
+        // CHECK IF NOT HAS ACCOUNT
+        if (!this.app.state.userInfo.account.game.account) this.app.state.userInfo.account.game.account = {};
+
+        if (!this.app.state.userInfo.account.game.account[game.game_id]) {
+            this.createGameAccount(game);
+        } else {
+            this.gameStart(game);
+        }
+    }
+    gameStart(game: Game) {
         this.currentGame = game;
 
         let serverURL = game!.game_host[0];
@@ -79,6 +91,37 @@ export default class Content extends Component<Props, State> {
         console.log(src);
 
         this.onOpen();
+    }
+
+    error(msg: string) {
+        return message.error(msg);
+    }
+
+    async createGameAccount(game: Game) {
+        message.loading(`正在创建 ${game.game_name} 账号...`);
+
+        let response = await Services.createGameAccount({
+            game_id: game.game_id,
+            balance: 0,
+            id: this.app.state.userInfo.game_user.id,
+            package_id: this.app.state.userInfo.game_user.package_id
+        });
+
+        if (response.data.code !== 200) return this.error(`创建账号失败 ${response.data.code}`);
+
+        let gameAccountList = this.app.state.userInfo.account.game.account;
+        let newGameAccountList = { ...gameAccountList, ...response.data.msg };
+        this.app.state.userInfo.account.game.account = newGameAccountList;
+
+        Storage.setUserInfo(this.app.state.userInfo);
+
+        this.app.setState({ userInfo: this.app.state.userInfo }, () => {
+            message.destroy();
+            message.success("创建成功!");
+            this.gameStart(game);
+        });
+
+        console.log(game);
     }
 
     render() {

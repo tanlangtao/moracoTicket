@@ -6,6 +6,12 @@ import * as serviceWorker from "./serviceWorker";
 import Axios from "axios";
 import { message } from "antd";
 
+console.log(process.env.NODE_ENV);
+
+if (process.env.NODE_ENV === "production") {
+    console.log = () => {};
+}
+
 // ADD YOU SETTTING
 // NET SETTING
 Axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
