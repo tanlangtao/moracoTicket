@@ -2,182 +2,187 @@
     width: 100%;
     height: 100%;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-
     background: url(../../../assets/hall/beijibg1-2-min.jpg);
     background-position: center;
     background-size: cover;
 
     position: relative;
-
-    .top {
-        width: 60%;
-        height: 30px;
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-
-        position: absolute;
-        top: -30px;
-
-        .title {
-            margin-left: 10px;
-            color: #dddddd;
-            height: 30px;
-            font-weight: 500;
-            line-height: 30px;
-
-        }
-    }
-
-    .browser {
-        position: absolute;
-        left: 0;
-        top: 0;
-
-        .browser-img {
-            width: 80%;
-        }
-
-    }
-
-    .middle {
+    .innerContent{
         display: flex;
         justify-content: center;
         align-items: center;
-        background: url(../../../assets/hall/nav_back_bg_fd2508e.jpg);
-        background-position: center;
-        background-size: cover;
         flex-direction: column;
-        width: 60%;
-        height: auto;
-
-
-        .normal-game {
+        height: 400px;
+        width: 1040px;
+        margin: 0 auto;
+        position: relative;
+        .top {
             width: 100%;
+            height: 30px;
             display: flex;
-            justify-content: center;
+            justify-content: flex-start;
             align-items: center;
-            flex-direction: column;
-
-            .game-tips {
-                width: 95%;
-                height: 40px;
-                display: flex;
-                justify-content: flex-start;
-                align-items: center;
-                margin-top: 10px;
-
-                .normal-game-icon-left {
-                    height: 50%;
-                }
-
-                .normal-game-icon-right {
-                    height: 100%;
-                }
-            }
-
-            >.game-list {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                width: 100%;
-
-                >div {
-                    width: calc(100%/3);
-
-                    >.game {
-                        width: 100%;
-                    }
-                }
+    
+            position: absolute;
+            top: -30px;
+    
+            .title {
+                margin-left: 10px;
+                color: #dddddd;
+                height: 30px;
+                font-weight: 500;
+                line-height: 30px;
+    
             }
         }
-
-        .source-game {
-            width: 100%;
+    
+        .browser {
+            position: absolute;
+            left: 0;
+            top: 0;
+    
+            .browser-img {
+                width: 80%;
+            }
+    
+        }
+    
+        .middle {
             display: flex;
             justify-content: center;
             align-items: center;
+            background: url(../../../assets/hall/nav_back_bg_fd2508e.jpg);
+            background-position: center;
+            background-size: cover;
             flex-direction: column;
-
-            .game-tips {
-                width: 95%;
-                height: 40px;
-                display: flex;
-                justify-content: flex-start;
-                align-items: center;
-                margin-top: 10px;
-
-                .normal-game-icon-left {
-                    height: 50%;
-                }
-
-                .normal-game-icon-right {
-                    height: 100%;
-                }
-            }
-
-            >.game-list {
+            width: 100%;
+            height: 400px;
+    
+    
+            .normal-game {
+                width: 100%;
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                width: 100%;
-                flex-wrap: wrap;
-
-                >div {
-                    width: calc(100%/3);
-
-                    >.game {
-                        width: 100%;
+                flex-direction: column;
+    
+                .game-tips {
+                    width: 95%;
+                    height: 40px;
+                    display: flex;
+                    justify-content: flex-start;
+                    align-items: center;
+                    margin-top: 10px;
+    
+                    .normal-game-icon-left {
+                        height: 50%;
+                    }
+    
+                    .normal-game-icon-right {
+                        height: 100%;
                     }
                 }
-            }
-        }
-
-        .source-show {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            overflow: hidden;
-
-            .game-tips {
-                width: 95%;
-                height: 40px;
-                display: flex;
-                justify-content: flex-start;
-                align-items: center;
-                margin-top: 10px;
-
-                .normal-game-icon-left {
-                    height: 50%;
-                }
-
-                .normal-game-icon-right {
-                    height: 100%;
-                }
-            }
-
-            >.game-list {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                width: 100%;
-
-                >div {
+    
+                >.game-list {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
                     width: 100%;
-
-                    >.game {
-                        width: calc(60vw/5);
+    
+                    >div {
+                        width: calc(100%/3);
+    
+                        >.game {
+                            width: 100%;
+                        }
+                    }
+                }
+            }
+    
+            .source-game {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+    
+                .game-tips {
+                    width: 95%;
+                    height: 40px;
+                    display: flex;
+                    justify-content: flex-start;
+                    align-items: center;
+                    margin-top: 10px;
+    
+                    .normal-game-icon-left {
+                        height: 50%;
+                    }
+    
+                    .normal-game-icon-right {
+                        height: 100%;
+                    }
+                }
+    
+                >.game-list {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 100%;
+                    flex-wrap: wrap;
+    
+                    >div {
+                        width: calc(100%/3);
+    
+                        >.game {
+                            width: 100%;
+                        }
+                    }
+                }
+            }
+    
+            .source-show {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                overflow: hidden;
+    
+                .game-tips {
+                    width: 95%;
+                    height: 40px;
+                    display: flex;
+                    justify-content: flex-start;
+                    align-items: center;
+                    margin-top: 10px;
+    
+                    .normal-game-icon-left {
+                        height: 50%;
+                    }
+    
+                    .normal-game-icon-right {
+                        height: 100%;
+                    }
+                }
+    
+                >.game-list {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 100%;
+    
+                    >div {
+                        width: 100%;
+    
+                        >.game {
+                            width: calc(60vw/5);
+                        }
                     }
                 }
             }
         }
     }
+   
 }
 
 .position-bottom {

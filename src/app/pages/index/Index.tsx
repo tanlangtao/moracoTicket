@@ -11,7 +11,6 @@ import { RouterProps } from "react-router";
 import Socket from "lows";
 
 import { Modal, message } from "antd";
-
 type State = { userInfo: UserInfo; isLogin: boolean };
 
 export default class Index extends Component<RouterProps, State> {
@@ -150,7 +149,7 @@ export default class Index extends Component<RouterProps, State> {
                 <Header app={this} ref={header => (this.header = header)} />
                 <Banner />
                 <Content app={this} ref={content => (this.content = content)} />
-                <Footer />
+                {/* <Footer /> */}
             </div>
         );
     }

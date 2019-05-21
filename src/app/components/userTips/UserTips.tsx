@@ -78,17 +78,19 @@ class UserTips extends Component<Props, State> {
 
         return (
             <div className="user-tips">
-                <div className="left">{welcome}</div>
-                <div className="right">
-                    <div className="balance">金币余额: {balance}</div>
-                    <div className="refresh">刷新</div>
-                    <Icon className="eye" src={require("../../../assets/hall/visible.png")} />
-                    <div className="top-up">充值</div>
-                    <div className="top-down">提款</div>
-                    <Icon src={require("../../../assets/hall/icon_CS.png")} />
-                    <div className="services">客服</div>
-                </div>
-                <LoginModal app={this.props.app} onClose={() => this.hiddemModal()} visible={this.state.showLogin} />
+               <div className='content'>
+                    <div className="left">{welcome}</div>
+                    <div className="right">
+                        <div className="balance">金币余额: {balance}</div>
+                        <div className="refresh">刷新</div>
+                        <Icon className="eye" src={require("../../../assets/hall/visible.png")} />
+                        <div className="top-up">充值</div>
+                        <div className="top-down">提款</div>
+                        <Icon src={require("../../../assets/hall/icon_CS.png")} />
+                        <div className="services">客服</div>
+                    </div>
+                    <LoginModal app={this.props.app} onClose={() => this.hiddemModal()} visible={this.state.showLogin} />
+               </div>
             </div>
         );
     }

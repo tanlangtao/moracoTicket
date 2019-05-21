@@ -75,42 +75,45 @@ export default class Header extends Component<Props, State> {
         return (
             <div className="header">
                 <Icon className="header-bg" src={require("../../../assets/hall/nav_back_bg_fd2505e.jpg")} />
-                <div className="list">
-                    <div className="left">
-                        <Icon className="left-icon" src={require("../../../assets/hall/new_icon.24b9ee17.png")} />
+               <div className='content'>
+               <Icon className="header-bg" src={require("../../../assets/hall/nav_back_bg_fd2505e.jpg")} />
+                    <div className="list">
+                        <div className="left">
+                            <Icon className="left-icon" src={require("../../../assets/hall/new_icon.24b9ee17.png")} />
+                        </div>
+                        <div className="right">{navsComponent}</div>
                     </div>
-                    <div className="right">{navsComponent}</div>
-                </div>
 
-                <Modal
-                    visible={this.state.visible}
-                    width={this.iframe.width}
-                    footer={null}
-                    destroyOnClose={true}
-                    // onCancel={() => this.onClose()}
-                    bodyStyle={{ padding: 0, margin: 0, height: this.iframe.height, maxHeight: "80vh", maxWidth: "80vw" }}
-                    closable={false}
-                    maskClosable={false}
-                >
-                    <iframe
-                        src={this.iframe.src}
-                        className={this.iframe.className}
-                        title={this.iframe.title}
-                        style={Object.assign(
-                            {
-                                padding: 0,
-                                margin: 0,
-                                border: "none",
-                                overflow: "hidden",
-                                height: this.iframe.height,
-                                width: this.iframe.width,
-                                maxHeight: "80vh",
-                                maxWidth: "80vw"
-                            },
-                            this.iframe.style
-                        )}
-                    />
-                </Modal>
+                    <Modal
+                        visible={this.state.visible}
+                        width={this.iframe.width}
+                        footer={null}
+                        destroyOnClose={true}
+                        // onCancel={() => this.onClose()}
+                        bodyStyle={{ padding: 0, margin: 0, height: this.iframe.height, maxHeight: "80vh", maxWidth: "80vw" }}
+                        closable={false}
+                        maskClosable={false}
+                    >
+                        <iframe
+                            src={this.iframe.src}
+                            className={this.iframe.className}
+                            title={this.iframe.title}
+                            style={Object.assign(
+                                {
+                                    padding: 0,
+                                    margin: 0,
+                                    border: "none",
+                                    overflow: "hidden",
+                                    height: this.iframe.height,
+                                    width: this.iframe.width,
+                                    maxHeight: "80vh",
+                                    maxWidth: "80vw"
+                                },
+                                this.iframe.style
+                            )}
+                        />
+                    </Modal>
+               </div>
             </div>
         );
     }

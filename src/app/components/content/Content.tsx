@@ -9,7 +9,8 @@ import { Game } from "../../interface/GameList";
 import Progress from "../progress/Progress";
 import Services from "../../services/Services";
 import Storage from "../storage/Storage";
-
+import RightFixed from '../rightfixed/RightFixed';
+import Bottom from "../small/Bottom";
 type Props = { app: Index };
 type State = { visible: boolean };
 
@@ -141,15 +142,16 @@ export default class Content extends Component<Props, State> {
             ));
         return (
             <div className="content">
+                <RightFixed/>
+                <div className = 'innerContent'>
                 <div className="top">
                     <Icon src={require("../../../assets/hall/icon_SE.png")} />
                     <div className="title">更新啦</div>
                 </div>
 
                 <div className="browser">
-                    <Icon src={require("../../../assets/hall/new_icon.24liulanqie16.png")} className="browser-img" />
+                    {/* <Icon src={require("../../../assets/hall/new_icon.24liulanqie16.png")} className="browser-img" /> */}
                 </div>
-
                 <div className="middle">
                     <div className="normal-game">
                         <div className="game-tips">
@@ -199,6 +201,7 @@ export default class Content extends Component<Props, State> {
                         </div>
                     </div>
                 </div>
+                </div>
                 <Modal
                     visible={this.state.visible}
                     width={this.iframe.width + "px"}
@@ -247,6 +250,7 @@ export default class Content extends Component<Props, State> {
                         </Button>
                     </div>
                 </Modal>
+                <Bottom />
             </div>
         );
     }
