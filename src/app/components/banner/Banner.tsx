@@ -3,47 +3,50 @@ import React, { FC } from "react";
 import "./banner.scss";
 import Icon from "../small/Icon";
 
+let idx = 0;
+let width = 1920;
 let toLeft = ()=>{
     let carsel = document.getElementById('carsel');
     if(carsel){
-        if(carsel.className==='carousel'){
-            carsel.className= `carousel1`;
-            carsel.style.transition ='left 1.5s';
-        }else if(carsel.className==='carousel1'){
-            carsel.className= `carousel2`;
-        }else if(carsel.className==='carousel2'){
-            carsel.className= `carousel3`;
-        }else if(carsel.className==='carousel3'){
+        carsel.style.transition ='left 0s';
+        idx += 1;
+        if(idx == 1){
+            idx = -4;
             carsel.style.transition ='left 0s';
-            carsel.className= `carousel`;
+        }else{
+            carsel.style.transition ='left 1.5s';
         }
+        carsel.style.left  = `${idx*width}px`
     }
     
 }
 let toRight = ()=>{
     let carsel = document.getElementById('carsel');
     if(carsel){
-        if(carsel.className==='carousel'){
+        carsel.style.transition ='left 0s';
+        idx -= 1;
+        if(idx == -5){
+            idx = 0;
             carsel.style.transition ='left 0s';
-            carsel.className= `carousel3`;
-        }else if(carsel.className==='carousel3'){
+        }else{
             carsel.style.transition ='left 1.5s';
-            carsel.className= `carousel2`;
-        }else if(carsel.className==='carousel2'){
-            carsel.className= `carousel1`;
-        }else if(carsel.className==='carousel1'){
-            carsel.className= `carousel`;
         }
+        carsel.style.left  = `${idx*width}px`
     }
 }
+// eslint-disable-next-line
 let timer = setInterval(()=>{
-    toLeft()
+    toRight()
 },5000)
    
 const Banner: FC = () => {
     return (
         <div className="banner" >
             <div className="carousel" id ='carsel'>
+                <Icon className="carousel-img" src={require("../../../assets/hall/lunbo1.jpg")} />
+                <Icon className="carousel-img" src={require("../../../assets/hall/lunbo2.jpg")} />
+                <Icon className="carousel-img" src={require("../../../assets/hall/lunbo3.jpg")} />
+                <Icon className="carousel-img" src={require("../../../assets/hall/lunbo4.jpg")} />
                 <Icon className="carousel-img" src={require("../../../assets/hall/lunbo1.jpg")} />
                 <Icon className="carousel-img" src={require("../../../assets/hall/lunbo2.jpg")} />
                 <Icon className="carousel-img" src={require("../../../assets/hall/lunbo3.jpg")} />

@@ -9,30 +9,25 @@
     position: relative;
     .innerContent{
         display: flex;
-        justify-content: center;
+        justify-content: flex-end;
         align-items: center;
         flex-direction: column;
-        height: 400px;
+        height: 100%;
         width: 1040px;
         margin: 0 auto;
         position: relative;
         .top {
             width: 100%;
-            height: 30px;
+            height: 54px;
             display: flex;
             justify-content: flex-start;
             align-items: center;
-    
-            position: absolute;
-            top: -30px;
-    
             .title {
                 margin-left: 10px;
-                color: #dddddd;
+                color: rgb(24, 102, 151);
                 height: 30px;
                 font-weight: 500;
                 line-height: 30px;
-    
             }
         }
     
@@ -49,16 +44,46 @@
     
         .middle {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            background: url(../../../assets/hall/nav_back_bg_fd2508e.jpg);
-            background-position: center;
-            background-size: cover;
-            flex-direction: column;
+            flex-direction: row;
             width: 100%;
-            height: 400px;
-    
-    
+            height: 382px;
+            .left-tip{
+                width: 69px;
+                height: 106px;
+            }
+            .game-scroll{
+                width: 880px;
+                height: 404px;
+                overflow: hidden;
+                >.game-list{
+                    height: 100%;
+                    position: relative;
+                    left:0;
+                    display: flex;
+                    flex-direction: column;
+                    flex-wrap: wrap;
+                    align-items: center;
+                    justify-content: flex-start;
+                    >div {
+                        width:270px;
+                        height: 193px;
+                        margin-right: 17px;
+                        margin-left: 10px;
+                        margin-top: 5px;
+                        margin-bottom: 4px;
+                        >.game {
+                            width: 100%;
+                            height: 100%;
+                        }
+                    }
+                }
+            }
+            .right-tip{
+                width: 69px;
+                height: 106px;
+            }
             .normal-game {
                 width: 100%;
                 display: flex;
@@ -187,15 +212,12 @@
 
 .position-bottom {
     position: absolute;
-    bottom: -10vh;
-    left: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-
-    button {
-        width: 15%;
-        margin: 0 10%;
-    }
+    top: 2px;
+    right: 2px;
+    width: 40px;
+    height: 40px;
+    background: url(../../../assets/game/but_close.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    z-index: 10000;
 }

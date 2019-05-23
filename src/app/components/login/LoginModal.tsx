@@ -33,31 +33,35 @@ export default class LoginModal extends Component<Props, State> {
     state = {
         router: "login"
     };
-
     render() {
         return (
             <Modal
                 visible={this.props.visible}
-                width={"70%"}
+                width={"480px"}
                 footer={null}
                 destroyOnClose={true}
                 onCancel={() => this.props.onClose()}
-                bodyStyle={{ padding: 0 }}
-                closable={true}
+                bodyStyle={{
+                    width:'480px',
+                    margin:0,
+                    padding:0,
+                    position:'absolute'
+                }}
+                closable={false}
                 maskClosable={false}
+                keyboard = {true}
             >
                 <div className="login-component">
                     <div className="brand">
-                        <Icon src={require("../../../assets/login/newqibaologoe16.png")} className="brand-img" />
                     </div>
-
                     <div className="login-box">
                         <div>
                             <div className="login-box-top">
-                                <div onClick={() => this.changeRouter()} className="code-login">
-                                    {this.state.router === "login" ? "注册" : "登录"}
-                                </div>
-                                <div className="services-online">在线客服</div>
+                                {/* <div onClick={() => this.changeRouter()} className="code-login">
+                                    {this.state.router === "login" ? "注册" : "登陆"}
+                                </div> */}
+                                <div className="code-login">在线客服</div>
+                                <div className="services-online" onClick={()=>this.props.onClose()}>关闭</div>
                             </div>
 
                             {this.state.router === "login" ? (
@@ -143,7 +147,7 @@ export default class LoginModal extends Component<Props, State> {
                         </div>
                     </div>
 
-                    <div className="show">
+                    {/* <div className="show">
                         <div>
                             <div className="show-box">
                                 <Icon src={require("../../../assets/login/gameIntro.png")} className="show-icon" />
@@ -166,9 +170,9 @@ export default class LoginModal extends Component<Props, State> {
                                 <div className="show-word-down">真实奖源</div>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
 
-                    <Bottom />
+                    {/* <Bottom /> */}
                 </div>
             </Modal>
         );

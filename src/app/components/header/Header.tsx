@@ -4,6 +4,7 @@ import Icon from "../small/Icon";
 import Index from "../../pages/index/Index";
 import Global from "../global/Global";
 import { Modal } from "antd";
+import { url } from "inspector";
 
 type Props = {
     app: Index;
@@ -29,7 +30,8 @@ export default class Header extends Component<Props, State> {
                   消息: () => news(this),
                   宝友: () => im(this),
                   兑换: () => topDown(this),
-                  充值: () => topUp(this)
+                  充值: () => topUp(this),
+                  交易所: () => house(this)
               }
             : {
                   游戏大厅: () => gameHall(),
@@ -37,6 +39,7 @@ export default class Header extends Component<Props, State> {
                   宝友: () => im(this),
                   兑换: () => topDown(this),
                   充值: () => topUp(this),
+                  交易所: () => house(this),
                   代理: () => proxy(this)
               };
 
@@ -45,7 +48,7 @@ export default class Header extends Component<Props, State> {
         select: "游戏大厅"
     };
 
-    iframe = { width: 0, src: "", className: "", height: 0, style: {}, title: "" };
+    iframe = { width: 0, src: "", className: "", height: 0, style: {}, title: "" ,border:1 };
 
     onClose() {
         this.setState({ visible: false });
@@ -75,8 +78,7 @@ export default class Header extends Component<Props, State> {
         return (
             <div className="header">
                 <Icon className="header-bg" src={require("../../../assets/hall/nav_back_bg_fd2505e.jpg")} />
-               <div className='content'>
-               <Icon className="header-bg" src={require("../../../assets/hall/nav_back_bg_fd2505e.jpg")} />
+               <div className='content2'>
                     <div className="list">
                         <div className="left">
                             <Icon className="left-icon" src={require("../../../assets/hall/new_icon.24b9ee17.png")} />
@@ -90,28 +92,42 @@ export default class Header extends Component<Props, State> {
                         footer={null}
                         destroyOnClose={true}
                         // onCancel={() => this.onClose()}
-                        bodyStyle={{ padding: 0, margin: 0, height: this.iframe.height, maxHeight: "80vh", maxWidth: "80vw" }}
-                        closable={false}
-                        maskClosable={false}
-                    >
-                        <iframe
-                            src={this.iframe.src}
-                            className={this.iframe.className}
-                            title={this.iframe.title}
-                            style={Object.assign(
-                                {
-                                    padding: 0,
-                                    margin: 0,
-                                    border: "none",
-                                    overflow: "hidden",
-                                    height: this.iframe.height,
-                                    width: this.iframe.width,
-                                    maxHeight: "80vh",
-                                    maxWidth: "80vw"
-                                },
-                                this.iframe.style
-                            )}
-                        />
+                        bodyStyle={{ 
+                            background:`black url(${this.iframe.border==1?require('../../../assets/game/imBorder.png'):require('../../../assets/game/youxikuang.png')})`,
+                            backgroundSize:'100% 100%',
+                            backgroundRepeat :'no-repeat',
+                            height: this.iframe.height,
+                            width: this.iframe.width,
+                            maxHeight: "100vh",
+                            maxWidth: "100vw",
+                            padding: this.iframe.border==1 ? '15px 10px 15px 10px':'30px 10px 30px 10px',
+                            margin: 0, }}
+                            closable={false}
+                            maskClosable={false}
+                            maskStyle={{background:`url(${require('../../../assets/hall/huabeijing.jpg')})` 
+                     }}
+                    >   
+                            <iframe
+                                src={this.iframe.src}
+                                className={this.iframe.className}
+                                title={this.iframe.title}
+                                style={Object.assign(
+                                    {
+                                        padding: 0,
+                                        margin: 'auto',
+                                        border: "none",
+                                        overflow: "hidden",
+                                        height:  this.iframe.border==1  ?this.iframe.height-30 :this.iframe.height-65,
+                                        width: this.iframe.border==1  ? this.iframe.width-20 :this.iframe.width-20,
+                                        maxHeight: "80vh",
+                                        maxWidth: "80vw"
+                                    },
+                                    this.iframe.style
+                                )}
+                            />
+                        <div className="position-bottom" onClick={() => this.onClose()}>
+                        
+                        </div>
                     </Modal>
                </div>
             </div>
@@ -142,15 +158,16 @@ const im = (app: Header) => {
         `&env=${Global.mode}` +
         `&time=${Date.now()}`;
 
-    app.iframe.height = width;
-    app.iframe.width = height;
+    app.iframe.height = 695;
+    app.iframe.width = 414;
     app.iframe.title = "im";
     app.iframe.src = src;
     app.iframe.className = "iframe";
+    app.iframe.border = 1
 
     app.onOpen();
 };
-
+export {im,topUp,topDown};
 const proxy = (app: Header) => {
     let url = Global.package.desktop.proxy_down_url;
     // url = "http://127.0.0.1:4200";
@@ -166,18 +183,18 @@ const proxy = (app: Header) => {
         `&env=${Global.mode}` +
         `&time=${Date.now()}`;
 
-    app.iframe.height = width;
-    app.iframe.width = height;
+    app.iframe.height = 695;
+    app.iframe.width = 414;
     app.iframe.title = "proxy";
     app.iframe.src = src;
     app.iframe.className = "iframe";
-
+    app.iframe.border = 1
     app.onOpen();
 };
 
 const topDown = (app: Header) => {
     let url = Global.package.desktop.pay_down_url;
-    // url = "http://10.63.58.18:7456";
+    // url = "http://127.0.0.1:7456";
 
     let src =
         `${url}` +
@@ -198,13 +215,13 @@ const topDown = (app: Header) => {
     app.iframe.title = "topdown";
     app.iframe.src = src;
     app.iframe.className = "iframe";
-
+    app.iframe.border = 2
     app.onOpen();
 };
 
 const topUp = (app: Header) => {
     let url = Global.package.desktop.pay_down_url;
-    // url = "http://10.63.58.18:7456";
+    // url = "http://127.0.0.1:7456";
 
     let src =
         `${url}` +
@@ -225,6 +242,32 @@ const topUp = (app: Header) => {
     app.iframe.title = "topdown";
     app.iframe.src = src;
     app.iframe.className = "iframe";
+    app.iframe.border = 2
+    app.onOpen();
+};
 
+const house = (app: Header) => {
+    let url = Global.package.desktop.house_down_url;
+    // url = "http://127.0.0.1:7457";
+    let src =
+        `${url}` +
+        `?version=${Global.package.desktop.house_version}` +
+        `&host=${Global.hostManager.payHost}` +
+        `&imHost=${Global.hostManager.imHost}` +
+        `&client=${Global.os}` +
+        `&user_id=${Global.userInfo.game_user.id}` +
+        `&user_name=${Global.userInfo.game_user.game_nick}` +
+        `&proxy_user_id=${Global.userInfo.prev_proxy.id}` +
+        `&proxy_name=${Global.userInfo.prev_proxy.proxy_nick}` +
+        `&package_id=${Global.userInfo.game_user.package_id}` +
+        `&path=${"/"}` +
+        `&env=${Global.mode}` +
+        `&time=${Date.now()}`;
+    app.iframe.height = height;
+    app.iframe.width = width;
+    app.iframe.title = "topdown";
+    app.iframe.src = src;
+    app.iframe.className = "iframe";
+    app.iframe.border = 2
     app.onOpen();
 };

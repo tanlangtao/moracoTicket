@@ -3,7 +3,7 @@ import Header from "../../components/header/Header";
 import UserTips from "../../components/userTips/UserTips";
 import Banner from "../../components/banner/Banner";
 import Content from "../../components/content/Content";
-import Footer from "../../components/footer/Footer";
+// import Footer from "../../components/footer/Footer";
 import { UserInfo } from "../../interface/User";
 import Storage from "../../components/storage/Storage";
 import Global from "../../components/global/Global";
@@ -99,11 +99,13 @@ export default class Index extends Component<RouterProps, State> {
         if (!data && data.code !== 200) return false;
 
         let gameUser = data.msg.game_user;
+        // eslint-disable-next-line
         this.state.userInfo.game_user = gameUser;
 
         if (data.msg.game_id && data.msg.game_account) {
             let gameAccount = data.msg.game_account;
             let gameId = data.msg.game_id;
+            // eslint-disable-next-line
             this.state.userInfo.account.game.account[gameId] = gameAccount;
         }
 
@@ -131,7 +133,10 @@ export default class Index extends Component<RouterProps, State> {
                 this.content!.progress!.onProgress(m.data);
                 break;
             case "__done":
-                this.content!.progress!.close();
+                if(m.data.name === 'pay'){
+                }else{
+                    this.content!.progress!.close();
+                }
                 break;
             default:
                 break;

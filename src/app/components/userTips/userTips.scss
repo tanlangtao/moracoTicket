@@ -18,6 +18,7 @@ $height:35px;
     height: $height;
     background-color: rgb(31, 33, 27);
     color: white;
+    font-family: "Microsoft YaHei";
     .content{
         width: 1040px;
         height: $height;
@@ -36,7 +37,7 @@ $height:35px;
                 width: 100%;
                 @include flexrows;
                 justify-content: flex-start;
-                padding-left: 10px;
+                padding-left: 20px;
                 .word {
                     height: $height;
                     line-height: $height;
@@ -52,11 +53,11 @@ $height:35px;
                     text-decoration: underline;
                     cursor: pointer;
                 }
-    
+                
                 .icon {
                     margin: 0 10px;
                 }
-    
+                
                 .login-button {
                     cursor: pointer;
                     text-decoration: underline;
@@ -125,6 +126,7 @@ $height:35px;
             }
     
             .services {
+                font-size: 16px;
                 margin: 0 10px;
                 cursor: pointer;
             }

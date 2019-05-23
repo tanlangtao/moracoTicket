@@ -6,7 +6,7 @@ import Index from "../../pages/index/Index";
 import LoginModal from "../login/LoginModal";
 import Storage from "../storage/Storage";
 import { Modal } from "antd";
-
+import { im,topUp,topDown } from "../header/Header";
 type Props = {
     app: Index;
 };
@@ -18,6 +18,8 @@ class UserTips extends Component<Props, State> {
     state = {
         showLogin: false
     };
+
+    app =this.props.app;
 
     login() {
         this.showModal();
@@ -49,6 +51,23 @@ class UserTips extends Component<Props, State> {
 
     componentWillMount() {}
 
+    openIm(){
+        if(this.app.header){
+            im(this.app.header)
+        }
+    }
+
+    openPay(){
+        if(this.app.header){
+            topUp(this.app.header)
+        }
+    }
+
+    openCash(){
+        if(this.app.header){
+            topDown(this.app.header)
+        }
+    }
     render() {
         // USER
         let userInfo = this.props.app.state.userInfo;
@@ -84,16 +103,18 @@ class UserTips extends Component<Props, State> {
                         <div className="balance">金币余额: {balance}</div>
                         <div className="refresh">刷新</div>
                         <Icon className="eye" src={require("../../../assets/hall/visible.png")} />
-                        <div className="top-up">充值</div>
-                        <div className="top-down">提款</div>
+                        <div className="top-up" onClick={()=>this.openPay()}>充值</div>
+                        <div className="top-down"  onClick={()=>this.openCash()}>提款</div>
                         <Icon src={require("../../../assets/hall/icon_CS.png")} />
-                        <div className="services">客服</div>
+                        <div className="services"  onClick={()=>this.openIm()}>客服</div>
                     </div>
                     <LoginModal app={this.props.app} onClose={() => this.hiddemModal()} visible={this.state.showLogin} />
                </div>
             </div>
         );
     }
+
+
 }
 
 export default UserTips;

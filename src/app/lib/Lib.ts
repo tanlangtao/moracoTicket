@@ -1,6 +1,5 @@
 import url from "url";
 import qs from "querystring";
-import Base64 from "./Base64";
 
 export function createObject(dotString: string, value: any) {
     let array = dotString.split(".");

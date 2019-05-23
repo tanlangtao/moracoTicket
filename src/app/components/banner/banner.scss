@@ -1,13 +1,12 @@
 .banner {
     width: 100%;
-    height: 485px;
+    height: 440px;
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
-
+    overflow: hidden;
     .carousel {
-        width: 100%;
         height: 435px;
         display: flex;
         flex-direction: row;
@@ -19,47 +18,7 @@
             height: 100%;
         }
     }
-    .carousel1 {
-        width: 100%;
-        height: 435px;
-        display: flex;
-        flex-direction: row;
-        position: absolute;
-        left: -100%;
-        top: 0;
-        .carousel-img {
-            width: 100%;
-            height: 100%;
-        }
-    }
-
-    .carousel2{
-        width: 100%;
-        height: 435px;
-        display: flex;
-        flex-direction: row;
-        position: absolute;
-        left: -200%;
-        top: 0;
-        .carousel-img {
-            width: 100%;
-            height: 100%;
-        }
-    }
-    .carousel3{
-        width: 100%;
-        height: 435px;
-        display: flex;
-        flex-direction: row;
-        position: absolute;
-        left: -300%;
-        top: 0;
-        .carousel-img {
-            width: 100%;
-            height: 100%;
-        }
-    }
-
+    
     .left-icon {
         position: absolute;
         left: 0;
@@ -108,12 +67,10 @@
     .bottom-icon {
         position: absolute;
         left: 0;
-        bottom: 0;
         width: 100%;
         // height: 80px;
-
         // display: none;
-
+        bottom: 0px;
         .bottim-img {
             width: 100%;
             // height: 80px;

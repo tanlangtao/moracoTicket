@@ -16,7 +16,7 @@ type State = { visible: boolean };
 
 export default class Content extends Component<Props, State> {
     state = {
-        visible: false
+        visible: false,
     };
 
     app = this.props.app;
@@ -124,7 +124,6 @@ export default class Content extends Component<Props, State> {
 
         console.log(game);
     }
-
     render() {
         let game_type_2 = Global.gameList
             .filter(e => e.type === 2)
@@ -142,63 +141,33 @@ export default class Content extends Component<Props, State> {
             ));
         return (
             <div className="content">
-                <RightFixed/>
+                <RightFixed app={this.app}/>
                 <div className = 'innerContent'>
                 <div className="top">
                     <Icon src={require("../../../assets/hall/icon_SE.png")} />
-                    <div className="title">更新啦</div>
+                    <div className="title">更新啦！</div>
                 </div>
 
                 <div className="browser">
                     {/* <Icon src={require("../../../assets/hall/new_icon.24liulanqie16.png")} className="browser-img" /> */}
                 </div>
                 <div className="middle">
-                    <div className="normal-game">
-                        <div className="game-tips">
-                            <Icon src={require("../../../assets/hall/icon_h.png")} className="normal-game-icon-left" />
-                            <Icon src={require("../../../assets/hall/txt_TG.png")} className="normal-game-icon-right" />
-                        </div>
-
-                        <div className="game-list">{game_type_2}</div>
+                    <div className='left-tip' id = 'left-tip' 
+                        onMouseDown={this.leftBtnStyle.bind(this)}
+                        onMouseUp={this.leftBtnStyle.bind(this)}
+                        onClick ={this.pageUp.bind(this)}
+                    >
+                        <Icon src={require("../../../assets/hall/game_l.png")} className="browser-img" /> 
                     </div>
-                    <div className="source-game">
-                        <div className="game-tips">
-                            <Icon src={require("../../../assets/hall/icon_jr.png")} className="normal-game-icon-left" />
-                            <Icon src={require("../../../assets/hall/txt_jjj.png")} className="normal-game-icon-right" />
-                        </div>
-
-                        <div className="game-list">{game_type_1}</div>
+                    <div className = 'game-scroll'>
+                        <div className="game-list" id='game-list'>{game_type_1}{game_type_2}</div>
                     </div>
-
-                    <div className="source-show">
-                        <div className="game-tips">
-                            <Icon src={require("../../../assets/hall/icon_jb.png")} className="normal-game-icon-left" />
-                            <Icon src={require("../../../assets/hall/txt_ppp.png")} className="normal-game-icon-right" />
-                        </div>
-
-                        <div className="game-list">
-                            <div>
-                                <Icon src={require("../../../assets/hall/new_icon.24tengxun15-2.png")} className="game" />
-                            </div>
-                            <div>
-                                <Icon src={require("../../../assets/hall/new_icon.2feitingee15-2.png")} className="game" />
-                            </div>
-                            <div>
-                                <Icon src={require("../../../assets/hall/new_icon.2jianada15-2.png")} className="game" />
-                            </div>
-                            <div>
-                                <Icon src={require("../../../assets/hall/new_icon.2zhongqiee15-2.png")} className="game" />
-                            </div>
-                            <div>
-                                <Icon src={require("../../../assets/hall/new_icon.2moluogee15-2.png")} className="game" />
-                            </div>
-                            <div>
-                                <Icon src={require("../../../assets/hall/new_icon.24henei115-2.png")} className="game" />
-                            </div>
-                            <div>
-                                <Icon src={require("../../../assets/hall/new_icon.24heneie15-2.png")} className="game" />
-                            </div>
-                        </div>
+                    <div className='right-tip'id = 'right-tip' 
+                        onMouseDown={this.rightBtnStyle.bind(this)} 
+                        onMouseUp={this.rightBtnStyle.bind(this)}
+                        onClick ={this.pageDown.bind(this)}
+                        >
+                        <Icon src={require("../../../assets/hall/game_r.png")} className="browser-img" /> 
                     </div>
                 </div>
                 </div>
@@ -209,15 +178,19 @@ export default class Content extends Component<Props, State> {
                     destroyOnClose={true}
                     // onCancel={() => this.onClose()}
                     bodyStyle={{
-                        padding: 0,
-                        margin: 0,
-                        height: this.iframe.height + "px",
-                        width: this.iframe.width + "px",
-                        maxHeight: "80vh",
-                        maxWidth: "80vw"
+                        background:`black url(${require('../../../assets/game/youxikuang.png')})`,
+                                backgroundSize:'100% 100%',
+                                backgroundRepeat :'no-repeat',
+                                height: this.iframe.height,
+                                width: this.iframe.width,
+                                maxHeight: "80vh",
+                                maxWidth: "80vw",
+                                padding: '35px 10px 30px 15px',
+                                margin: 0 ,
                     }}
                     closable={false}
                     maskClosable={false}
+                    maskStyle={{background:`url(${require('../../../assets/hall/huabeijing.jpg')})` }}
                 >
                     <iframe
                         src={this.iframe.src}
@@ -230,28 +203,66 @@ export default class Content extends Component<Props, State> {
                                 margin: 0,
                                 border: "none",
                                 overflow: "hidden",
-                                height: this.iframe.height + "px",
-                                width: this.iframe.width + "px",
+                                height: this.iframe.height-120+"px",
+                                width: this.iframe.width-30+"px",
                                 maxHeight: "80vh",
                                 maxWidth: "80vw"
                             },
                             this.iframe.style
                         )}
                     />
-
                     <Progress ref={progress => (this.progress = progress)} />
 
-                    <div className="position-bottom">
+                    <div className="position-bottom" onClick={() => this.onClose()}>
                         {/* <Button type="primary" ghost onClick={() => this.randomGame()}>
                             下一个游戏
                         </Button> */}
-                        <Button type="danger" ghost onClick={() => this.onClose()}>
-                            关闭游戏
-                        </Button>
                     </div>
                 </Modal>
                 <Bottom />
             </div>
         );
+    }
+    leftBtnStyle(){
+        let Btn = document.getElementById('left-tip');
+        if(Btn){
+            if( Btn.style.transform === 'scale(0.9)'){
+                Btn.style.transform = 'scale(1)'
+            }else{
+                Btn.style.transform = 'scale(0.9)'
+            }
+            
+        }
+    }
+
+    rightBtnStyle(){
+        let Btn= document.getElementById('right-tip');
+        if(Btn){
+            if( Btn.style.transform === 'scale(0.9)'){
+                Btn.style.transform = 'scale(1)'
+            }else{
+                Btn.style.transform = 'scale(0.9)'
+            }
+            
+        }
+    }
+
+    pageUp(){
+        let gameList = document.getElementById('game-list');
+        if(gameList){
+               
+                if(gameList.style.left === '-880px'){
+                    gameList.style.left = `0px`;
+                    gameList.style.transition ='left 1s';
+                }
+        }
+    }
+
+    pageDown(){
+        let gameList = document.getElementById('game-list');
+        if(gameList){
+            gameList.style.left = `-880px`;
+            gameList.style.transition ='left 1s';
+        }
     }
 }
