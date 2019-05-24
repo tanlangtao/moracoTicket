@@ -32,9 +32,14 @@ export default class RightFixed extends Component<Props, State> {
         window.open('http://www.manycai.com/','black')
     }
     click2(){
-        if(this.app.header){
-            im(this.app.header)
-        }
+        this.app.header!.onClose();
+        this.app.content!.onClose();
+        let timer = setTimeout(()=>{
+            if(this.app.header){
+                im(this.app.header)
+            }
+            clearTimeout(timer)
+        },500)
     }
     click3(){
         window.open('https://pan.baidu.com/s/1tt8f4A5iR3eGhYQa06QXDg','black')
@@ -43,9 +48,14 @@ export default class RightFixed extends Component<Props, State> {
         window.open('http://7baogame.com/','black')
     }
     click5(){
-        if(this.app.header){
-            topUp(this.app.header)
-        }
+        this.app.header!.onClose();
+        this.app.content!.onClose();
+        let timer = setTimeout(()=>{
+            if(this.app.header){
+                topUp(this.app.header)
+            }
+            clearTimeout(timer)
+        },500)
     }
     click6(){
         document.body.scrollTop = document.documentElement.scrollTop = 0;

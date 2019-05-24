@@ -3,11 +3,9 @@ import Index from "../../pages/index/Index";
 
 import "./loginModal.scss";
 import { Modal, Checkbox, message } from "antd";
-import Icon from "../small/Icon";
 import Global from "../global/Global";
 import Services from "../../services/Services";
 import Storage from "../storage/Storage";
-import Bottom from "../small/Bottom";
 
 type Props = {
     app: Index;
@@ -66,8 +64,9 @@ export default class LoginModal extends Component<Props, State> {
 
                             {this.state.router === "login" ? (
                                 <div className="login-box-middle">
+                                    <div className = 'login-logo'></div>
                                     <div className="account">
-                                        <div className="left-title">账号</div>
+                                        <div className="left-title" style={{background:`url(${require('../../../assets/login/txt_account.png')}) no-repeat`,backgroundSize:'contain'}}></div>
                                         <input
                                             autoComplete="off"
                                             className="account-input"
@@ -77,7 +76,7 @@ export default class LoginModal extends Component<Props, State> {
                                         />
                                     </div>
                                     <div className="password">
-                                        <div className="left-title">密码</div>
+                                        <div className="left-title" style={{background:`url(${require('../../../assets/login/txt_pwd.png')}) no-repeat `,backgroundSize:'contain'}}></div>
                                         <input
                                             autoComplete="off"
                                             className="password-input"
@@ -92,8 +91,8 @@ export default class LoginModal extends Component<Props, State> {
                                         <div className="forget-password">忘记密码</div>
                                     </div>
 
-                                    <div className="login-sumbit" onClick={() => this.login()}>
-                                        登录
+                                    <div className="login-sumbit"  onClick={() => this.login()}>
+                                        
                                     </div>
                                 </div>
                             ) : (
@@ -340,9 +339,12 @@ export default class LoginModal extends Component<Props, State> {
         this.app.login();
 
         message.destroy();
-
+        
         message.success("登录成功!");
-
+        console.log('代理等级',user.proxy_rule.income)
+        this.app.setState({
+            userInfo:user
+        })
         this.props.onClose();
     }
 }

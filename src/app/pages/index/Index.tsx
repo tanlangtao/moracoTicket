@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Header from "../../components/header/Header";
+import {im} from "../../components/header/Header";
 import UserTips from "../../components/userTips/UserTips";
 import Banner from "../../components/banner/Banner";
 import Content from "../../components/content/Content";
@@ -133,10 +134,19 @@ export default class Index extends Component<RouterProps, State> {
                 this.content!.progress!.onProgress(m.data);
                 break;
             case "__done":
-                if(m.data.name === 'pay'){
+                if(m.data.name === 'pay' || m.data.name === 'IM'){
                 }else{
                     this.content!.progress!.close();
                 }
+                break;
+            case "__onim":
+                this.header!.onClose();
+                let timer = setTimeout(()=>{
+                    if(this.header){
+                        im(this.header);
+                    }
+                    clearTimeout(timer)
+                },500)
                 break;
             default:
                 break;
@@ -147,12 +157,22 @@ export default class Index extends Component<RouterProps, State> {
         window.removeEventListener("message", this.onPostMessage.bind(this), false);
     }
 
+    getIconPath() {
+        // let os = this.os;
+
+        // let packageName = `${this.deviceInfo.packageName}`;
+
+        // let pathName = packageName.replace(`.${os}`, "") + "/icon";
+
+        // return `${this.hostManager.sourceHost}/${pathName}/`;
+    }
+
     render() {
         return (
             <div className="index">
                 <UserTips app={this} ref={userTips => (this.userTips = userTips)} />
                 <Header app={this} ref={header => (this.header = header)} />
-                <Banner />
+                <Banner app={this} />
                 <Content app={this} ref={content => (this.content = content)} />
                 {/* <Footer /> */}
             </div>

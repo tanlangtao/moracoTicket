@@ -4,6 +4,7 @@
     background-size: cover;
     background-position: center;
     position: relative;
+    
     .brand {
         display: flex;
         justify-content: center;
@@ -28,9 +29,9 @@
             border: 1px solid rgb(160, 138, 50);
             width: 480px;
             height: 100%;
-
+            border-radius: 5px;
             .login-box-top {
-                width: 480px;
+                width: 478px;
                 height: 30px;
                 display: flex;
                 justify-content: space-between;
@@ -40,7 +41,7 @@
                     width: 80px;
                     height: 100%;
                     line-height: 30px;
-
+                    border-radius: 5px;
                     background-color: rgb(44, 104, 178);
                     text-align: center;
                     cursor: pointer;
@@ -51,7 +52,7 @@
                     width: 80px;
                     height: 100%;
                     line-height: 30px;
-
+                    border-radius: 5px;
                     background-color: rgb(44, 104, 178);
                     text-align: center;
                     cursor: pointer;
@@ -66,7 +67,14 @@
                 justify-content: center;
                 align-items: center;
                 flex-direction: column;
-
+                .login-logo{
+                    background: url(../../../assets/login/f2.png);
+                    width: 260px;
+                    height: 80px;
+                    background-size: contain;
+                    position: absolute;
+                    top:30%;
+                }
                 .account,
                 .password {
                     width: 80%;
@@ -87,6 +95,7 @@
                         margin-left: 20px;
                         font-size: 14px;
                         font-weight: 900;
+                        height: 25px;
                     }
 
                     .account-img,
@@ -138,6 +147,8 @@
                     line-height: 40px;
                     color: #222;
                     cursor: pointer;
+                    background:rgb(174, 147, 75) url(../../../assets/login/txt_signIn.png)  no-repeat;
+                    background-position: 50%;
                 }
             }
 

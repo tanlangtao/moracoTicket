@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import "./content.scss";
 import Icon from "../small/Icon";
-import { Modal, Button, message } from "antd";
+import { Modal, message } from "antd";
 import Global from "../global/Global";
 import Index from "../../pages/index/Index";
 import { Game } from "../../interface/GameList";
@@ -23,7 +23,7 @@ export default class Content extends Component<Props, State> {
 
     currentGame: Game | null = null;
 
-    iframe = { width: 0, src: "", className: "", height: 0, style: {}, title: "" };
+    iframe = { width: 0, src: "", className: "", height: 0, style: {}, title: "" ,border :2};
 
     progress!: Progress | null;
 
@@ -82,13 +82,19 @@ export default class Content extends Component<Props, State> {
             `&version=${game!.version}` +
             `&env=${Global.mode}` +
             `&time=${Date.now()}`;
-
-        this.iframe.height = game.height;
-        this.iframe.width = game.width;
+        if(game.game_name === '红包扫雷'){
+            this.iframe.border = 1;
+            this.iframe.height = 695;
+            this.iframe.width = 414;
+        }else{
+            this.iframe.border = 2;
+            this.iframe.height = game.height;
+            this.iframe.width = game.width;
+        }
         this.iframe.title = "proxy";
         this.iframe.src = src;
         this.iframe.className = "iframe";
-
+        
         console.log(src);
 
         this.onOpen();
@@ -125,16 +131,15 @@ export default class Content extends Component<Props, State> {
         console.log(game);
     }
     render() {
-        let game_type_2 = Global.gameList
-            .filter(e => e.type === 2)
-            .map((e, i) => (
-                <div onClick={() => this.onGame(e)} key={i}>
-                    <Icon src={e.web_game_img} className="game" />
-                </div>
-            ));
-        let game_type_1 = Global.gameList
-            .filter(e => e.type === 1)
-            .map((e, i) => (
+        console.log(Global.gameList);
+        // let game_type_2 = Global.gameList
+        //     .filter(e => e.type === 2)
+        //     .map((e, i) => (
+        //         <div onClick={() => this.onGame(e)} key={i}>
+        //             <Icon src={e.web_game_img} className="game" />
+        //         </div>
+        //     ));
+        let game_type_1 = Global.gameList.sort((a, b) => b.sort - a.sort).map((e, i) => (
                 <div onClick={() => this.onGame(e)} key={i}>
                     <Icon src={e.web_game_img} className="game" />
                 </div>
@@ -160,7 +165,7 @@ export default class Content extends Component<Props, State> {
                         <Icon src={require("../../../assets/hall/game_l.png")} className="browser-img" /> 
                     </div>
                     <div className = 'game-scroll'>
-                        <div className="game-list" id='game-list'>{game_type_1}{game_type_2}</div>
+                        <div className="game-list" id='game-list'>{game_type_1}</div>
                     </div>
                     <div className='right-tip'id = 'right-tip' 
                         onMouseDown={this.rightBtnStyle.bind(this)} 
@@ -178,15 +183,15 @@ export default class Content extends Component<Props, State> {
                     destroyOnClose={true}
                     // onCancel={() => this.onClose()}
                     bodyStyle={{
-                        background:`black url(${require('../../../assets/game/youxikuang.png')})`,
-                                backgroundSize:'100% 100%',
-                                backgroundRepeat :'no-repeat',
-                                height: this.iframe.height,
-                                width: this.iframe.width,
-                                maxHeight: "80vh",
-                                maxWidth: "80vw",
-                                padding: '35px 10px 30px 15px',
-                                margin: 0 ,
+                        background:`black url(${this.iframe.border===1?require('../../../assets/game/imBorder.png'):require('../../../assets/game/youxikuang.png')})`,
+                        backgroundSize:'100% 100%',
+                        backgroundRepeat :'no-repeat',
+                        height: this.iframe.height,
+                        width: this.iframe.width,
+                        maxHeight: "80vh",
+                        maxWidth: "80vw",
+                        padding: this.iframe.border===1 ? '15px 10px 15px 10px':'40px 25px 43px 23px',
+                        margin: 0 ,
                     }}
                     closable={false}
                     maskClosable={false}
@@ -203,8 +208,8 @@ export default class Content extends Component<Props, State> {
                                 margin: 0,
                                 border: "none",
                                 overflow: "hidden",
-                                height: this.iframe.height-120+"px",
-                                width: this.iframe.width-30+"px",
+                                height:  this.iframe.border===1  ?this.iframe.height-30+"px" :this.iframe.height-121+"px",
+                                width:  this.iframe.border===1  ?this.iframe.width-20+"px" :this.iframe.width-48+"px",
                                 maxHeight: "80vh",
                                 maxWidth: "80vw"
                             },

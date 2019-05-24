@@ -4,7 +4,7 @@ import Icon from "../small/Icon";
 import Index from "../../pages/index/Index";
 import Global from "../global/Global";
 import { Modal } from "antd";
-import { url } from "inspector";
+import { UserInfo } from '../../interface/User';
 
 type Props = {
     app: Index;
@@ -13,6 +13,7 @@ type Props = {
 type State = {
     select: string;
     visible: boolean;
+    income :number;
 };
 
 const width = 736 * 1.3;
@@ -21,6 +22,11 @@ const height = 414 * 1.3;
 export default class Header extends Component<Props, State> {
     // APP
     app = this.props.app;
+    state = {
+        visible: false,
+        select: "游戏大厅",
+        income:0
+    };
 
     // TITLES
     navs =
@@ -42,14 +48,8 @@ export default class Header extends Component<Props, State> {
                   交易所: () => house(this),
                   代理: () => proxy(this)
               };
-
-    state = {
-        visible: false,
-        select: "游戏大厅"
-    };
-
+    
     iframe = { width: 0, src: "", className: "", height: 0, style: {}, title: "" ,border:1 };
-
     onClose() {
         this.setState({ visible: false });
     }
@@ -68,7 +68,36 @@ export default class Header extends Component<Props, State> {
         (this.navs as any)[select]();
     }
 
+    shouldComponentUpdate(){
+        console.log(this.app.state.userInfo)
+        if(this.app.state.userInfo.proxy_rule){
+            return true;
+        }else{
+            return false;
+        }
+        
+    }
     render() {
+        //显示代理
+            this.navs =this.app.state.userInfo.proxy_rule.income === 0
+                ? {
+                      游戏大厅: () => gameHall(),
+                      消息: () => news(this),
+                      宝友: () => im(this),
+                      兑换: () => topDown(this),
+                      充值: () => topUp(this),
+                      交易所: () => house(this)
+                  }
+                : {
+                      游戏大厅: () => gameHall(),
+                      消息: () => news(this),
+                      宝友: () => im(this),
+                      兑换: () => topDown(this),
+                      充值: () => topUp(this),
+                      交易所: () => house(this),
+                      代理: () => proxy(this)
+                  };
+        
         let navsComponent = Object.keys(this.navs).map((e, i) => (
             <div key={i} onClick={(ev: MouseEvent) => this.navsClick(ev, e)} className={e === this.state.select ? "nav-index" : ""}>
                 {e}
@@ -93,14 +122,14 @@ export default class Header extends Component<Props, State> {
                         destroyOnClose={true}
                         // onCancel={() => this.onClose()}
                         bodyStyle={{ 
-                            background:`black url(${this.iframe.border==1?require('../../../assets/game/imBorder.png'):require('../../../assets/game/youxikuang.png')})`,
+                            background:`black url(${this.iframe.border===1?require('../../../assets/game/imBorder.png'):require('../../../assets/game/youxikuang.png')})`,
                             backgroundSize:'100% 100%',
                             backgroundRepeat :'no-repeat',
                             height: this.iframe.height,
                             width: this.iframe.width,
                             maxHeight: "100vh",
                             maxWidth: "100vw",
-                            padding: this.iframe.border==1 ? '15px 10px 15px 10px':'30px 10px 30px 10px',
+                            padding: this.iframe.border===1 ? '15px 10px 15px 10px':'35px 15px 35px 20px',
                             margin: 0, }}
                             closable={false}
                             maskClosable={false}
@@ -117,8 +146,8 @@ export default class Header extends Component<Props, State> {
                                         margin: 'auto',
                                         border: "none",
                                         overflow: "hidden",
-                                        height:  this.iframe.border==1  ?this.iframe.height-30 :this.iframe.height-65,
-                                        width: this.iframe.border==1  ? this.iframe.width-20 :this.iframe.width-20,
+                                        height:  this.iframe.border===1  ?this.iframe.height-30 :this.iframe.height-75,
+                                        width: this.iframe.border===1  ? this.iframe.width-20 :this.iframe.width-40,
                                         maxHeight: "80vh",
                                         maxWidth: "80vw"
                                     },
@@ -164,10 +193,9 @@ const im = (app: Header) => {
     app.iframe.src = src;
     app.iframe.className = "iframe";
     app.iframe.border = 1
-
     app.onOpen();
 };
-export {im,topUp,topDown};
+
 const proxy = (app: Header) => {
     let url = Global.package.desktop.proxy_down_url;
     // url = "http://127.0.0.1:4200";
@@ -271,3 +299,4 @@ const house = (app: Header) => {
     app.iframe.border = 2
     app.onOpen();
 };
+export {im,topUp,topDown};
