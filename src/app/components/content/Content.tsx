@@ -11,24 +11,38 @@ import Services from "../../services/Services";
 import Storage from "../storage/Storage";
 import RightFixed from '../rightfixed/RightFixed';
 import Bottom from "../small/Bottom";
+import Notice from "../../components/notice/Notice";
+
 type Props = { app: Index };
-type State = { visible: boolean };
+type State = { 
+    visible: boolean,
+    userInfo:any,
+    
+ };
 
 export default class Content extends Component<Props, State> {
-    state = {
+    state :State= {
         visible: false,
+        userInfo:null
     };
 
-    app = this.props.app;
 
+    app = this.props.app;
+    iconPath='';
     currentGame: Game | null = null;
 
     iframe = { width: 0, src: "", className: "", height: 0, style: {}, title: "" ,border :2};
 
     progress!: Progress | null;
+    
+      // 通知模块
+    notice!: Notice | null;
 
     onClose() {
         this.setState({ visible: false });
+        // let balance =   Global.userInfo.account.game.account[data.game_id].balance;
+        // let bankerBalance = this.app.userInfo.account.game.account[data.game_id].banker_balance;
+        // let lockMoney = (balance + bankerBalance).toFixed(2);
     }
 
     onOpen() {
@@ -77,6 +91,7 @@ export default class Content extends Component<Props, State> {
         let src =
             `${game!.web_down_webgl}` +
             `?info=${info}` +
+            `&iconPath=${this.iconPath}` +
             `&os=${Global.os}` +
             `&package_id=${Global.userInfo.game_user.package_id}` +
             `&version=${game!.version}` +
@@ -88,8 +103,8 @@ export default class Content extends Component<Props, State> {
             this.iframe.width = 414;
         }else{
             this.iframe.border = 2;
-            this.iframe.height = game.height;
-            this.iframe.width = game.width;
+            this.iframe.height = 375*1.4;
+            this.iframe.width = 667*1.4;
         }
         this.iframe.title = "proxy";
         this.iframe.src = src;
@@ -127,11 +142,21 @@ export default class Content extends Component<Props, State> {
             message.success("创建成功!");
             this.gameStart(game);
         });
-
-        console.log(game);
+        console.log(this.iframe)
     }
+    componentDidMount(){
+        this.iconPath = this.app.getIconPath();
+      
+    }
+    isOwnEmpty(obj:any){ 
+        for(var name in obj){ 
+          if(obj.hasOwnProperty(name)){ 
+            return false; 
+          } 
+        } 
+        return true; 
+      }
     render() {
-        console.log(Global.gameList);
         // let game_type_2 = Global.gameList
         //     .filter(e => e.type === 2)
         //     .map((e, i) => (
@@ -139,20 +164,36 @@ export default class Content extends Component<Props, State> {
         //             <Icon src={e.web_game_img} className="game" />
         //         </div>
         //     ));
+       
+        // let account = Global.userInfo.account.game.account;
+        // let game_type_1 = null;
+        // if(!this.isOwnEmpty(account)){
+        //     console.log(account)
+        //     game_type_1 = Global.gameList.sort((a, b) => b.sort - a.sort).map((e, i) => (
+        //         <div onClick={() => this.onGame(e)} key={i}>
+        //             <Icon src={e.web_game_img} className="game" />
+        //             <div className="lockMoney" >{
+        //                 (account[e._id].balance+account[e._id].banker_balance).toFixed(2)
+        //             }</div>
+        //         </div>
+        //     ))
+        // }
         let game_type_1 = Global.gameList.sort((a, b) => b.sort - a.sort).map((e, i) => (
-                <div onClick={() => this.onGame(e)} key={i}>
-                    <Icon src={e.web_game_img} className="game" />
-                </div>
-            ));
+                    <div onClick={() => this.onGame(e)} key={i}>
+                        <Icon src={e.web_game_img} className="game" />
+                        <div className="lockMoney" >{
+                            // (account[e._id].balance+account[e._id].banker_balance).toFixed(2)
+                        }</div>
+                    </div>
+                ))
         return (
             <div className="content">
                 <RightFixed app={this.app}/>
                 <div className = 'innerContent'>
-                <div className="top">
+                <div className="top" >
                     <Icon src={require("../../../assets/hall/icon_SE.png")} />
-                    <div className="title">更新啦！</div>
+                    <Notice  app={this.app} ref={notice => (this.notice = notice)} />
                 </div>
-
                 <div className="browser">
                     {/* <Icon src={require("../../../assets/hall/new_icon.24liulanqie16.png")} className="browser-img" /> */}
                 </div>
@@ -190,8 +231,9 @@ export default class Content extends Component<Props, State> {
                         width: this.iframe.width,
                         maxHeight: "80vh",
                         maxWidth: "80vw",
-                        padding: this.iframe.border===1 ? '15px 10px 15px 10px':'40px 25px 43px 23px',
+                        padding: this.iframe.border===1 ? '15px 5px 15px 5px':'34px 23px 43px 20px',
                         margin: 0 ,
+                        minWidth:this.iframe.border===1 ?'414px':'934px'
                     }}
                     closable={false}
                     maskClosable={false}
@@ -208,10 +250,11 @@ export default class Content extends Component<Props, State> {
                                 margin: 0,
                                 border: "none",
                                 overflow: "hidden",
-                                height:  this.iframe.border===1  ?this.iframe.height-30+"px" :this.iframe.height-121+"px",
-                                width:  this.iframe.border===1  ?this.iframe.width-20+"px" :this.iframe.width-48+"px",
+                                height:  this.iframe.border===1  ?this.iframe.height-60+"px" :this.iframe.height-75+"px",
+                                width:  this.iframe.border===1  ?this.iframe.width-10+"px" :this.iframe.width-40+"px",
                                 maxHeight: "80vh",
-                                maxWidth: "80vw"
+                                maxWidth: "80vw",
+                                minWidth:this.iframe.border===1 ?'180px':'894px'
                             },
                             this.iframe.style
                         )}

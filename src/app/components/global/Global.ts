@@ -14,6 +14,12 @@ class Global {
     // PAKCAGE NAME
     packageName = "";
 
+    // REFERER
+    referer = "";
+
+    // AUTH
+    auth = "";
+
     // HostManager
     hostManager = {} as HostManager;
 

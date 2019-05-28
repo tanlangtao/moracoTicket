@@ -1,5 +1,6 @@
-import url from "url";
-import qs from "querystring";
+
+import { Params } from "../interface/Params";
+import { Package } from "../interface/Package";
 
 export function createObject(dotString: string, value: any) {
     let array = dotString.split(".");
@@ -52,26 +53,26 @@ export function copyTextToClipboard(text: any) {
     return false;
 }
 
-export function parseURL() {
-    let urlInfo = url.parse(window.location.href);
+export function parseQueryString(path: string) {
+    var arr = {} as any;
+    path.slice(1)
+        .split("&")
+        .map((e: any) => e.split("="))
+        .forEach(e => (arr[e[0]] = e[1]));
+    return arr;
+}
 
-    let query = urlInfo.query;
-    if (!query) return false;
-
-    let q = qs.parse(query);
-    if (!q.package_info) return false;
-    if (!q.params) return false;
-
-    let params = {};
-    let packageInfo = {};
-
+export function parseURL(str: string) {
     try {
-        params = JSON.parse(decodeURIComponent(atob(q.params as string)));
-        packageInfo = JSON.parse(decodeURIComponent(atob(q.package_info as string) as string));
+        let jsonString = decodeURIComponent(atob(str));
+
+        let queryString = parseQueryString("?" + jsonString);
+
+        let params = JSON.parse(queryString.params) as Params;
+        let packageInfo = JSON.parse(queryString.package_info) as Package;
+
+        return { params, packageInfo };
     } catch (error) {
-        console.log(error);
         return false;
     }
-
-    return { params, packageInfo };
 }

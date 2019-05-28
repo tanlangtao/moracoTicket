@@ -6,25 +6,26 @@ import { HashRouter, Switch, Route, Redirect } from "react-router-dom";
 import Global from "./components/global/Global";
 
 import Error from "./pages/error/Error";
-import { parseURL } from "./lib/Lib";
+import { parseQueryString } from "./lib/Lib";
 import { Params } from "./interface/Params";
 import Axios from "axios";
 import Storage from "./components/storage/Storage";
 import { Package } from "./interface/Package";
+import Services from "./services/Services";
 
 class App extends Component {
     state = {
         ready: false
     };
 
-    componentWillMount() {
+    async componentWillMount() {
         // ERROR
         if (window.location.hash === "#/error") return this.ready();
 
         // PARSE URL
-        let info = parseURL();
+        let info = (await this.getAuth()) as any;
 
-        if (info === false) return this.error();
+        if (info.params === false) return this.error();
 
         // ENTRY INFO
         let params: Params = info.params as Params;
@@ -35,12 +36,56 @@ class App extends Component {
         this.getGameList();
     }
 
+    getIconPath() {
+        let os = Global.os;
+
+        let packageName = `${Global.packageName}`;
+
+        let pathName = packageName.replace(`.${os}`, "") + "/icon";
+
+        return `${Global.hostManager.sourceHost}/${pathName}/`;
+    }
+
+    async getAuth() {
+        let query = window.location.search;
+
+        let queryObj = parseQueryString(query);
+
+        let t = queryObj.t;
+
+        let p = queryObj.p;
+
+        let params = JSON.parse(decodeURIComponent(atob(p)));
+
+        let a = t.slice(0, 36);
+
+        let auth = "entry:" + a.slice(0, 10) + a.slice(14);
+
+        let serverHost = atob(t.slice(36));
+
+        Global.hostManager.serverHost = serverHost;
+
+        Global.auth = auth;
+
+        let authResponse = await Services.auth();
+        if (!authResponse.data || authResponse.data.code !== 200) return this.error();
+
+        let referer = authResponse.data.msg.data;
+
+        Global.referer = referer;
+
+        let packageResponse = await Services.getPackage({ package_id: params.package_id });
+        if (!packageResponse.data || packageResponse.data.code !== 200) return this.error();
+
+        let packageInfo = packageResponse.data.msg;
+
+        return { params, packageInfo };
+    }
+
     async getGameList() {
         // GET GAME LIST
-        let gameList = await this.get(Global.hostManager.serverHost + Global.package.get_game_list, {
-            token: Global.params.token,
-            package_id: Global.params.package_id
-        });
+        let gameList = await Services.getGameList({ package_id: Global.params.package_id });
+
         if (!gameList.data || gameList.data.code !== 200) {
             return this.error();
         }
@@ -89,10 +134,12 @@ class App extends Component {
     }
 
     ready() {
-        console.log(Global);
         this.setState({ ready: true });
     }
 
+    componentDidMount(){
+        window.resizeTo(1000,500)
+    }
     render() {
         return !this.state.ready ? null : (
             <HashRouter>

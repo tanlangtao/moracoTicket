@@ -4,8 +4,7 @@ import Icon from "../small/Icon";
 import Index from "../../pages/index/Index";
 import Global from "../global/Global";
 import { Modal } from "antd";
-import { UserInfo } from '../../interface/User';
-
+import NewsMessage from '../newsMessage/NewsMessage';
 type Props = {
     app: Index;
 };
@@ -22,18 +21,19 @@ const height = 414 * 1.3;
 export default class Header extends Component<Props, State> {
     // APP
     app = this.props.app;
+    newsMessage!: NewsMessage | null;
     state = {
         visible: false,
         select: "游戏大厅",
         income:0
     };
-
+    iconPath =''
     // TITLES
     navs =
         this.app.state.userInfo.proxy_rule.income === 0
             ? {
                   游戏大厅: () => gameHall(),
-                  消息: () => news(this),
+                  消息: () => news(this.newsMessage!),
                   宝友: () => im(this),
                   兑换: () => topDown(this),
                   充值: () => topUp(this),
@@ -41,7 +41,7 @@ export default class Header extends Component<Props, State> {
               }
             : {
                   游戏大厅: () => gameHall(),
-                  消息: () => news(this),
+                  消息: () => news(this.newsMessage!),
                   宝友: () => im(this),
                   兑换: () => topDown(this),
                   充值: () => topUp(this),
@@ -68,8 +68,10 @@ export default class Header extends Component<Props, State> {
         (this.navs as any)[select]();
     }
 
+    componentDidMount(){
+        this.iconPath = this.app.getIconPath();
+    }
     shouldComponentUpdate(){
-        console.log(this.app.state.userInfo)
         if(this.app.state.userInfo.proxy_rule){
             return true;
         }else{
@@ -82,7 +84,7 @@ export default class Header extends Component<Props, State> {
             this.navs =this.app.state.userInfo.proxy_rule.income === 0
                 ? {
                       游戏大厅: () => gameHall(),
-                      消息: () => news(this),
+                      消息: () => news(this.newsMessage!),
                       宝友: () => im(this),
                       兑换: () => topDown(this),
                       充值: () => topUp(this),
@@ -90,7 +92,7 @@ export default class Header extends Component<Props, State> {
                   }
                 : {
                       游戏大厅: () => gameHall(),
-                      消息: () => news(this),
+                      消息: () => news(this.newsMessage!),
                       宝友: () => im(this),
                       兑换: () => topDown(this),
                       充值: () => topUp(this),
@@ -106,7 +108,8 @@ export default class Header extends Component<Props, State> {
 
         return (
             <div className="header">
-                <Icon className="header-bg" src={require("../../../assets/hall/nav_back_bg_fd2505e.jpg")} />
+                <div className="header-bg" ></div>
+                {/* <Icon className="header-bg" src={require("../../../assets/hall/nav_back_bg_fd2505e.jpg")} /> */}
                <div className='content2'>
                     <div className="list">
                         <div className="left">
@@ -127,13 +130,15 @@ export default class Header extends Component<Props, State> {
                             backgroundRepeat :'no-repeat',
                             height: this.iframe.height,
                             width: this.iframe.width,
-                            maxHeight: "100vh",
-                            maxWidth: "100vw",
-                            padding: this.iframe.border===1 ? '15px 10px 15px 10px':'35px 15px 35px 20px',
-                            margin: 0, }}
+                            maxHeight: "80vh",
+                            maxWidth: "80vw",
+                            padding: this.iframe.border===1 ? '15px 15px 15px 10px':'35px 15px 35px 20px',
+                            margin: 0, 
+                            minWidth:this.iframe.width,
+                        }}
                             closable={false}
                             maskClosable={false}
-                            maskStyle={{background:`url(${require('../../../assets/hall/huabeijing.jpg')})` 
+                            maskStyle={{background:`url(${require('../../../assets/hall/huabeijing.jpg')})` ,
                      }}
                     >   
                             <iframe
@@ -146,10 +151,11 @@ export default class Header extends Component<Props, State> {
                                         margin: 'auto',
                                         border: "none",
                                         overflow: "hidden",
-                                        height:  this.iframe.border===1  ?this.iframe.height-30 :this.iframe.height-75,
+                                        height:  this.iframe.border===1  ?this.iframe.height-55 :this.iframe.height-75,
                                         width: this.iframe.border===1  ? this.iframe.width-20 :this.iframe.width-40,
                                         maxHeight: "80vh",
-                                        maxWidth: "80vw"
+                                        maxWidth: "80vw",
+                                        minWidth:this.iframe.border===1 ?'180px':'915px'
                                     },
                                     this.iframe.style
                                 )}
@@ -158,6 +164,7 @@ export default class Header extends Component<Props, State> {
                         
                         </div>
                     </Modal>
+                    <NewsMessage app={this.app} ref={newsMessage => (this.newsMessage = newsMessage)}/>
                </div>
             </div>
         );
@@ -168,18 +175,18 @@ const gameHall = () => {
     console.log("game-hall");
 };
 
-const news = (app: Header) => {
-    console.log("news");
+const news = (newsMessage: NewsMessage ) => {
+    newsMessage.onOpen()
 };
 
 const im = (app: Header) => {
     let url = Global.package.desktop.im_down_url;
     // url = "http://127.0.0.1:4200";
-
     let src =
         `${url}` +
         `?version=${Global.package.desktop.im_version}` +
         `&host=${Global.hostManager.imHost}` +
+        `&iconPath=${app.iconPath}` +
         `&package_id=${Global.package.id}` +
         `&os=${Global.os}` +
         `&account_name=${Global.userInfo.game_user.id}` +

@@ -10,9 +10,12 @@ import Storage from "../../components/storage/Storage";
 import Global from "../../components/global/Global";
 import { RouterProps } from "react-router";
 import Socket from "lows";
+import Axios from "axios";
+import Api from "../../api/Api";
+import Qs from "querystring";
 
 import { Modal, message } from "antd";
-type State = { userInfo: UserInfo; isLogin: boolean };
+type State = { userInfo: UserInfo; isLogin: boolean ,news:any};
 
 export default class Index extends Component<RouterProps, State> {
     state = {
@@ -23,7 +26,8 @@ export default class Index extends Component<RouterProps, State> {
             proxy_rule: {},
             account: { game: { account: {} } }
         } as UserInfo,
-        isLogin: false
+        isLogin: false,
+        news:''
     };
 
     socket: Socket = new Socket({
@@ -57,8 +61,10 @@ export default class Index extends Component<RouterProps, State> {
     }
 
     webSocketListen() {
+        let self = this;
         this.socket.addListener("/Game/login/login", (ws: any, data: any) => {
             console.log(data);
+            self.getNotice();
         });
 
         this.socket.addListener("nologin", (ws: any, data: any) => {
@@ -88,7 +94,7 @@ export default class Index extends Component<RouterProps, State> {
         });
 
         this.socket.addListener("/GameServer/Notice/notice", (ws: any, data: any) => {
-            console.log(data);
+            this.content!.notice!.notice(data.msg);
         });
 
         this.socket.addListener("/im/message/sendMessage", (ws: any, data: any) => {
@@ -117,8 +123,16 @@ export default class Index extends Component<RouterProps, State> {
         this.login();
 
         window.addEventListener("message", this.onPostMessage.bind(this), false);
+
+        //窗口小于1920时，自动滚动至中间
+        this.resizeClient()
     }
 
+    resizeClient(){
+        window.addEventListener('resize',()=>{
+            document.documentElement.scrollTo(430,0);
+        })
+    }
     onPostMessage(e: MessageEvent) {
         let m = JSON.parse(e.data);
 
@@ -158,13 +172,73 @@ export default class Index extends Component<RouterProps, State> {
     }
 
     getIconPath() {
-        // let os = this.os;
+        let os = Global.os;
 
-        // let packageName = `${this.deviceInfo.packageName}`;
+        let packageName = `${Global.packageName}`;
 
-        // let pathName = packageName.replace(`.${os}`, "") + "/icon";
+        let pathName = packageName.replace(`.${os}`, "") + "/icon";
 
-        // return `${this.hostManager.sourceHost}/${pathName}/`;
+        return `${Global.hostManager.sourceHost}/${pathName}/`;
+    }
+
+    async getNotice() {
+        let now = new Date();
+
+        let time = (now.getTime() / 1000) >> 0;
+
+        let day = 30;
+
+        let data :any= await Axios.post(
+            `${Global.hostManager.serverHost}${Api.getNotice}`,
+            Qs.stringify({
+                id: this.state.userInfo.game_user.id,
+                query: JSON.stringify({
+                    package_ids: { $elemMatch: { $eq: this.state.userInfo.game_user.package_id } },
+                    is_open: 1,
+                    start_time: { $lte: time },
+                    end_time: { $lte: time + 3600 * 24 * day }
+                })
+            })
+        ).catch(e => console.log(e));
+        if (!data.data) return false;
+        if (data.data.code !== 200) return false;
+
+        let msgs = data.data.msg;
+
+        let notices :any  = [];
+
+        let sliders :any = [];
+
+        msgs.forEach((e:any, i:number) => {
+            let notice = {
+                key:0,
+                isShow:0,
+                type:'123',
+                title:'',
+                words:{}
+            };
+
+            notice.key = i;
+            notice.isShow = 0;
+            notice.type = e.type;
+            notice.title = e.title;
+            notice.words = e.words;
+
+            notices.push(notice);
+
+            if (e.is_slider === 1) {
+                let noticeVal = `${e.title}:${e.words}`;
+                sliders.push({
+                    type: 1, // 1 系统 2 游戏
+                    notice: noticeVal.replace(/\s+/g,"")
+                });
+            }
+        });
+        this.header!.newsMessage!.setState({ news: notices });
+
+        sliders.forEach((e:any)=> {
+            this.content!.notice!.notice(e);
+        });
     }
 
     render() {

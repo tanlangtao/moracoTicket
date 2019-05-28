@@ -77,9 +77,10 @@ class UserTips extends Component<Props, State> {
             <div className="welcome">
                 <div className="word">欢迎您 ,</div>
                 <div className="name">{userInfo.game_user.game_nick}</div>
-                <Icon className="icon" src={require("../../../assets/hall/icon_mail.png")} />
+                <div className="word">(ID: {userInfo.game_user.id})</div>
+                {/* <Icon className="icon" src={require("../../../assets/hall/icon_mail.png")} /> */}
                 <div className="quit">
-                    <div className="pre-info">预留信息 :</div>
+                    <div className="pre-info"></div>
                     <div className="safe-quit" onClick={() => this.quit()}>
                         安全退出
                     </div>
@@ -92,7 +93,7 @@ class UserTips extends Component<Props, State> {
                 </div>
             </div>
         );
-
+        
         let balance = userInfo.game_user.game_gold ? userInfo.game_user.game_gold.toFixed(4) : "0.0000";
 
         return (
