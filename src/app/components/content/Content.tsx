@@ -40,9 +40,6 @@ export default class Content extends Component<Props, State> {
 
     onClose() {
         this.setState({ visible: false });
-        // let balance =   Global.userInfo.account.game.account[data.game_id].balance;
-        // let bankerBalance = this.app.userInfo.account.game.account[data.game_id].banker_balance;
-        // let lockMoney = (balance + bankerBalance).toFixed(2);
     }
 
     onOpen() {
@@ -148,15 +145,8 @@ export default class Content extends Component<Props, State> {
         this.iconPath = this.app.getIconPath();
       
     }
-    isOwnEmpty(obj:any){ 
-        for(var name in obj){ 
-          if(obj.hasOwnProperty(name)){ 
-            return false; 
-          } 
-        } 
-        return true; 
-      }
     render() {
+        //游戏类型判断
         // let game_type_2 = Global.gameList
         //     .filter(e => e.type === 2)
         //     .map((e, i) => (
@@ -165,27 +155,25 @@ export default class Content extends Component<Props, State> {
         //         </div>
         //     ));
        
-        // let account = Global.userInfo.account.game.account;
-        // let game_type_1 = null;
-        // if(!this.isOwnEmpty(account)){
-        //     console.log(account)
-        //     game_type_1 = Global.gameList.sort((a, b) => b.sort - a.sort).map((e, i) => (
-        //         <div onClick={() => this.onGame(e)} key={i}>
-        //             <Icon src={e.web_game_img} className="game" />
-        //             <div className="lockMoney" >{
-        //                 (account[e._id].balance+account[e._id].banker_balance).toFixed(2)
-        //             }</div>
-        //         </div>
-        //     ))
-        // }
-        let game_type_1 = Global.gameList.sort((a, b) => b.sort - a.sort).map((e, i) => (
-                    <div onClick={() => this.onGame(e)} key={i}>
-                        <Icon src={e.web_game_img} className="game" />
-                        <div className="lockMoney" >{
-                            // (account[e._id].balance+account[e._id].banker_balance).toFixed(2)
-                        }</div>
-                    </div>
-                ))
+        let account = Global.userInfo.account.game.account;
+        var b = (JSON.stringify(account) === "{}");
+        let game_type_1 = null;
+        console.log(account)
+        //判断是否为空
+        if(b){
+            game_type_1 = null;
+        }else{
+             game_type_1 = Global.gameList.sort((a, b) => b.sort - a.sort).map((e, i) => (
+                <div onClick={() => this.onGame(e)} key={i}>
+                    <Icon src={e.web_game_img} className="game" />
+                    {
+                        (account[e.game_id].balance+account[e.game_id].banker_balance).toFixed(2)>0 ?<div className="lockMoney" ><span role='img'>🔒</span>{
+                            (account[e.game_id].balance+account[e.game_id].banker_balance).toFixed(2)
+                        }</div>:''
+                    }
+                </div>
+            ))
+        }
         return (
             <div className="content">
                 <RightFixed app={this.app}/>
@@ -243,7 +231,7 @@ export default class Content extends Component<Props, State> {
                         src={this.iframe.src}
                         className={this.iframe.className}
                         title={this.iframe.title}
-                        // allow="autoplay"
+                        allow="autoplay"
                         style={Object.assign(
                             {
                                 padding: 0,
@@ -259,7 +247,10 @@ export default class Content extends Component<Props, State> {
                             this.iframe.style
                         )}
                     />
-                    <Progress ref={progress => (this.progress = progress)} />
+                    <Progress   propborder={this.iframe.border} 
+                                progressBarwidth ={this.iframe.border===1  ?this.iframe.width-10 :this.iframe.width-40} 
+                                ref={progress => (this.progress = progress)} 
+                    />
 
                     <div className="position-bottom" onClick={() => this.onClose()}>
                         {/* <Button type="primary" ghost onClick={() => this.randomGame()}>

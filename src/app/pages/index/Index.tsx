@@ -81,7 +81,9 @@ export default class Index extends Component<RouterProps, State> {
         });
 
         this.socket.addListener("/GameServer/GameUser/loginout", (ws: any, data: any) => {
+            console.log('loginout',data)
             this.updateGameUser(data);
+            
         });
 
         this.socket.addListener("/GameServer/GameUser/login", (ws: any, data: any) => {
@@ -89,6 +91,7 @@ export default class Index extends Component<RouterProps, State> {
         });
 
         this.socket.addListener("/GameServer/GameUser/changeGameUserBalance", (ws: any, data: any) => {
+            console.log('changeGameUserBalance',data)
             this.updateGameUser(data);
             message.info("你的余额已更新!!!");
         });

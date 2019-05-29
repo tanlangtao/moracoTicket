@@ -50,6 +50,7 @@ export default class Header extends Component<Props, State> {
               };
     
     iframe = { width: 0, src: "", className: "", height: 0, style: {}, title: "" ,border:1 };
+
     onClose() {
         this.setState({ visible: false });
     }
@@ -160,6 +161,7 @@ export default class Header extends Component<Props, State> {
                                     this.iframe.style
                                 )}
                             />
+                    />
                         <div className="position-bottom" onClick={() => this.onClose()}>
                         
                         </div>
