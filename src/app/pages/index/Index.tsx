@@ -128,14 +128,16 @@ export default class Index extends Component<RouterProps, State> {
         window.addEventListener("message", this.onPostMessage.bind(this), false);
 
         //窗口小于1920时，自动滚动至中间
-        this.resizeClient()
+        let clientW = document.documentElement.clientWidth
+        let idx = (1920-clientW)
+        document.documentElement.scrollLeft=idx/2;
     }
 
-    resizeClient(){
-        window.addEventListener('resize',()=>{
-            document.documentElement.scrollTo(430,0);
-        })
-    }
+    // resizeClient(){
+    //     window.addEventListener('resize',()=>{
+    //         document.documentElement.scrollLeft=420
+    //     })
+    // }
     onPostMessage(e: MessageEvent) {
         let m = JSON.parse(e.data);
 
@@ -240,6 +242,7 @@ export default class Index extends Component<RouterProps, State> {
         this.header!.newsMessage!.setState({ news: notices });
 
         sliders.forEach((e:any)=> {
+            if(!this.content!.notice) return null;
             this.content!.notice!.notice(e);
         });
     }

@@ -28,7 +28,7 @@ export default class RightFixed extends Component<Props, State> {
     }
 
     click1(){
-        window.open('http://www.manycai.com/','black');
+        window.open('http://www.monacolot.com','black');
     }
     click2(){
         this.app.header!.onClose();
