@@ -16,8 +16,7 @@ type State = {
 };
 
 const width = 736 * 1.3;
-const height = 414 * 1.3;
-
+const height = 414 * 1.4;
 export default class Header extends Component<Props, State> {
     // APP
     app = this.props.app;
@@ -36,14 +35,16 @@ export default class Header extends Component<Props, State> {
                   消息: () => news(this.newsMessage!),
                   宝友: () => im(this),
                   兑换: () => topDown(this),
+                  活动: () => activity(this),
                   充值: () => topUp(this),
-                  交易所: () => house(this)
+                  交易所: () => house(this),
               }
             : {
                   游戏大厅: () => gameHall(),
                   消息: () => news(this.newsMessage!),
                   宝友: () => im(this),
                   兑换: () => topDown(this),
+                  活动: ()=>activity(this),
                   充值: () => topUp(this),
                   交易所: () => house(this),
                   代理: () => proxy(this)
@@ -88,6 +89,7 @@ export default class Header extends Component<Props, State> {
                       消息: () => news(this.newsMessage!),
                       宝友: () => im(this),
                       兑换: () => topDown(this),
+                      活动: ()=>activity(this),
                       充值: () => topUp(this),
                       交易所: () => house(this)
                   }
@@ -96,6 +98,7 @@ export default class Header extends Component<Props, State> {
                       消息: () => news(this.newsMessage!),
                       宝友: () => im(this),
                       兑换: () => topDown(this),
+                      活动: ()=>activity(this),
                       充值: () => topUp(this),
                       交易所: () => house(this),
                       代理: () => proxy(this)
@@ -133,9 +136,10 @@ export default class Header extends Component<Props, State> {
                             width: this.iframe.width,
                             maxHeight: "80vh",
                             maxWidth: "80vw",
-                            padding: this.iframe.border===1 ? '15px 15px 15px 10px':'35px 15px 35px 20px',
+                            padding: this.iframe.border===1 ? '10px 15px 10px 10px':'35px 15px 35px 20px',
                             margin: 0, 
                             minWidth:this.iframe.width,
+                            minHeight:this.iframe.height
                         }}
                             closable={false}
                             maskClosable={false}
@@ -152,16 +156,17 @@ export default class Header extends Component<Props, State> {
                                         margin: 'auto',
                                         border: "none",
                                         overflow: "hidden",
-                                        height:  this.iframe.border===1  ?this.iframe.height-55 :this.iframe.height-75,
+                                        height:  this.iframe.border===1  ?this.iframe.height-30 :this.iframe.height-80,
                                         width: this.iframe.border===1  ? this.iframe.width-20 :this.iframe.width-40,
                                         maxHeight: "80vh",
                                         maxWidth: "80vw",
-                                        minWidth:this.iframe.border===1 ?'180px':'915px'
+                                        minWidth:this.iframe.border===1  ? this.iframe.width-20 :this.iframe.width-40,
+                                        minHeight:this.iframe.border===1  ?this.iframe.height-20 :this.iframe.height-80
                                     },
                                     this.iframe.style
                                 )}
                             />
-                    />
+                    
                         <div className="position-bottom" onClick={() => this.onClose()}>
                         
                         </div>
@@ -196,8 +201,9 @@ const im = (app: Header) => {
         `&env=${Global.mode}` +
         `&time=${Date.now()}`;
 
-    app.iframe.height = 695;
+    app.iframe.height = 715;
     app.iframe.width = 414;
+    
     app.iframe.title = "im";
     app.iframe.src = src;
     app.iframe.className = "iframe";
@@ -300,6 +306,30 @@ const house = (app: Header) => {
         `&path=${"/"}` +
         `&env=${Global.mode}` +
         `&time=${Date.now()}`;
+    app.iframe.height = height;
+    app.iframe.width = width;
+    app.iframe.title = "topdown";
+    app.iframe.src = src;
+    app.iframe.className = "iframe";
+    app.iframe.border = 2
+    app.onOpen();
+};
+const activity = (app: Header) => {
+    let url = Global.package.desktop.pay_down_url;
+    let src =
+        `${url}` +
+        `?version=${Global.package.desktop.pay_version}` +
+        `&host=${Global.hostManager.payHost}` +
+        `&client=${Global.os}` +
+        `&user_id=${Global.userInfo.game_user.id}` +
+        `&user_name=${Global.userInfo.game_user.game_nick}` +
+        `&proxy_user_id=${Global.userInfo.prev_proxy.id}` +
+        `&proxy_name=${Global.userInfo.prev_proxy.proxy_nick}` +
+        `&package_id=${Global.userInfo.game_user.package_id}` +
+        `&path=${"/activity"}` +
+        `&env=${Global.mode}` +
+        `&time=${Date.now()}`;
+
     app.iframe.height = height;
     app.iframe.width = width;
     app.iframe.title = "topdown";

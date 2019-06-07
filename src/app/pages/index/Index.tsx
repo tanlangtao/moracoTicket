@@ -82,6 +82,7 @@ export default class Index extends Component<RouterProps, State> {
 
         this.socket.addListener("/GameServer/GameUser/loginout", (ws: any, data: any) => {
             console.log('loginout',data)
+            console.log(Global.userInfo)
             this.updateGameUser(data);
             
         });
@@ -107,19 +108,31 @@ export default class Index extends Component<RouterProps, State> {
 
     updateGameUser(data: any) {
         if (!data && data.code !== 200) return false;
-
+        console.log('updateGameUser,接收到data',data)
         let gameUser = data.msg.game_user;
         // eslint-disable-next-line
         this.state.userInfo.game_user = gameUser;
-
+        let gameAccount = Storage.getGameAccount()
+        Global.userInfo.account.game={
+            account:gameAccount
+        }
+        this.state.userInfo.account.game={
+            account:gameAccount
+        }
         if (data.msg.game_id && data.msg.game_account) {
             let gameAccount = data.msg.game_account;
             let gameId = data.msg.game_id;
             // eslint-disable-next-line
             this.state.userInfo.account.game.account[gameId] = gameAccount;
+            
         }
 
-        this.setState({ userInfo: this.state.userInfo });
+        this.setState({ userInfo: this.state.userInfo },()=>{
+            //刷新本地存储
+            console.log('刷新本地存储')
+            Storage.setUserInfo(this.state.userInfo )
+            Storage.setGameAccount(this.state.userInfo.account.game.account )
+        });
     }
 
     componentDidMount() {
@@ -129,15 +142,9 @@ export default class Index extends Component<RouterProps, State> {
 
         //窗口小于1920时，自动滚动至中间
         let clientW = document.documentElement.clientWidth
-        let idx = (1920-clientW)
+        let idx = (1040-clientW)
         document.documentElement.scrollLeft=idx/2;
     }
-
-    // resizeClient(){
-    //     window.addEventListener('resize',()=>{
-    //         document.documentElement.scrollLeft=420
-    //     })
-    // }
     onPostMessage(e: MessageEvent) {
         let m = JSON.parse(e.data);
 
@@ -166,6 +173,10 @@ export default class Index extends Component<RouterProps, State> {
                     }
                     clearTimeout(timer)
                 },500)
+                break;
+            case '__openLink':
+                     console.log(m)
+                    window.open(m.data.url, 'blank');
                 break;
             default:
                 break;
@@ -239,7 +250,13 @@ export default class Index extends Component<RouterProps, State> {
                 });
             }
         });
-        this.header!.newsMessage!.setState({ news: notices });
+        let showNotices :any = []
+        notices.forEach((e:any)=> {
+            if(e.type == 2){
+                showNotices.push(e)
+            }
+        });
+        this.header!.newsMessage!.setState({ news: showNotices });
 
         sliders.forEach((e:any)=> {
             if(!this.content!.notice) return null;

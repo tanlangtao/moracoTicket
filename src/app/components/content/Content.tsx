@@ -17,13 +17,14 @@ type Props = { app: Index };
 type State = { 
     visible: boolean,
     userInfo:any,
-    
+    showAlert:boolean,
  };
 
 export default class Content extends Component<Props, State> {
     state :State= {
         visible: false,
-        userInfo:null
+        userInfo:null,
+        showAlert:false,
     };
 
 
@@ -42,10 +43,18 @@ export default class Content extends Component<Props, State> {
         this.setState({ visible: false });
     }
 
+
     onOpen() {
         this.setState({ visible: true });
     }
 
+    onShowAlert(){
+        this.setState({ showAlert: true });
+    }
+
+    onCancleAlert(){
+        this.setState({ showAlert: false });
+    }
     randomGame() {
         if (!this.currentGame) return;
 
@@ -57,6 +66,7 @@ export default class Content extends Component<Props, State> {
         this.onGame(randomGames[t % randomGames.length]);
     }
 
+
     onGame(game: Game) {
         // CHECK IF NOT LOGIN
         if (!Global.isLogin()) {
@@ -65,8 +75,7 @@ export default class Content extends Component<Props, State> {
 
         // CHECK IF NOT HAS ACCOUNT
         if (!this.app.state.userInfo.account.game.account) this.app.state.userInfo.account.game.account = {};
-
-        if (!this.app.state.userInfo.account.game.account[game.game_id]) {
+        if (!this.app.state.userInfo.account.game.account[game.game_id]||JSON.stringify(this.app.state.userInfo.account.game.account[game.game_id])==='{}') {
             this.createGameAccount(game);
         } else {
             this.gameStart(game);
@@ -96,12 +105,12 @@ export default class Content extends Component<Props, State> {
             `&time=${Date.now()}`;
         if(game.game_name === '红包扫雷'){
             this.iframe.border = 1;
-            this.iframe.height = 695;
+            this.iframe.height = 715;
             this.iframe.width = 414;
         }else{
             this.iframe.border = 2;
-            this.iframe.height = 375*1.4;
-            this.iframe.width = 667*1.4;
+            this.iframe.height = 441;
+            this.iframe.width = 994;
         }
         this.iframe.title = "proxy";
         this.iframe.src = src;
@@ -126,18 +135,20 @@ export default class Content extends Component<Props, State> {
             package_id: this.app.state.userInfo.game_user.package_id
         });
 
-        if (response.data.code !== 200) return this.error(`创建账号失败 ${response.data.code}`);
+        // if (response.data.code !== 200) return this.error(`创建账号失败 ${response.data.code}`);
+        if (response.data.code !== 200) return this.error(`创建账号失败,请重新登陆！`);
 
         let gameAccountList = this.app.state.userInfo.account.game.account;
         let newGameAccountList = { ...gameAccountList, ...response.data.msg };
         this.app.state.userInfo.account.game.account = newGameAccountList;
 
-        Storage.setUserInfo(this.app.state.userInfo);
-
+        
         this.app.setState({ userInfo: this.app.state.userInfo }, () => {
             message.destroy();
             message.success("创建成功!");
             this.gameStart(game);
+            Storage.setUserInfo(this.app.state.userInfo)
+            Storage.setGameAccount(this.app.state.userInfo.account.game.account)
         });
         console.log(this.iframe)
     }
@@ -158,12 +169,14 @@ export default class Content extends Component<Props, State> {
         let account = Global.userInfo.account.game.account;
         var b = (JSON.stringify(account) === "{}");
         let game_type_1 = null;
-        console.log(account)
         //判断是否为空
-        if(b){
-            game_type_1 = null;
+        if(!account ||b){
+            game_type_1 = Global.gameList.sort((a, b) => b.sort - a.sort).map((e, i) => {
+                return <div onClick={() => this.onGame(e)} key={i}>
+                    <Icon src={e.web_game_img} className="game" />
+                </div>
+             })
         }else{
-            
              game_type_1 = Global.gameList.sort((a, b) => b.sort - a.sort).map((e, i) => {
                 if (!account[e.game_id]) account[e.game_id] = {}
                 return <div onClick={() => this.onGame(e)} key={i}>
@@ -176,7 +189,6 @@ export default class Content extends Component<Props, State> {
                 </div>
              })
         }
-
         // let account = Global.userInfo.account.game.account;
         // let game_type_1 = null;
         // if (!account || Object.keys(account).length === 0){
@@ -187,20 +199,22 @@ export default class Content extends Component<Props, State> {
         //         </div>
         //     })
         // }else{
-        //     game_type_1 = Global.gameList.sort((a, b) => b.sort - a.sort).map((e, i) => {
+            // if (!account || Object.keys(account).length === 0) return null
+            // game_type_1 = Global.gameList.sort((a, b) => b.sort - a.sort).map((e, i) => {
             
-        //         if (!account[e.game_id]) account[e.game_id] = {}
+            //     if (!account[e.game_id]) account[e.game_id] = {}
     
-        //         return <div onClick={() => this.onGame(e)} key={i}>
-        //             <Icon src={e.web_game_img} className="game" />
-        //             {
-        //                 (account[e.game_id].balance + account[e.game_id]!.banker_balance).toFixed(2)>0 ?<div className="lockMoney" ><span role='img'>🔒</span>{
-        //                     (account[e.game_id]!.balance+account[e.game_id]!.banker_balance).toFixed(2)
-        //                 }</div>:''
-        //             }
-        //         </div>
-        //     })
+            //     return <div onClick={() => this.onGame(e)} key={i}>
+            //         <Icon src={e.web_game_img} className="game" />
+            //         {
+            //             (account[e.game_id].balance + account[e.game_id]!.banker_balance).toFixed(2)>0 ?<div className="lockMoney" ><span role='img'>🔒</span>{
+            //                 (account[e.game_id]!.balance+account[e.game_id]!.banker_balance).toFixed(2)
+            //             }</div>:''
+            //         }
+            //     </div>
+            // })
         // }
+        console.log(Global)
         
         return (
             <div className="content">
@@ -235,7 +249,7 @@ export default class Content extends Component<Props, State> {
                 </div>
                 <Modal
                     visible={this.state.visible}
-                    width={this.iframe.width + "px"}
+                    width={this.iframe.width }
                     footer={null}
                     destroyOnClose={true}
                     // onCancel={() => this.onClose()}
@@ -247,9 +261,10 @@ export default class Content extends Component<Props, State> {
                         width: this.iframe.width,
                         maxHeight: "80vh",
                         maxWidth: "80vw",
-                        padding: this.iframe.border===1 ? '15px 5px 15px 5px':'34px 23px 43px 20px',
+                        padding: this.iframe.border===1 ? '10px 4px 5px 4px':'34px 23px 43px 20px',
                         margin: 0 ,
-                        minWidth:this.iframe.border===1 ?'414px':'934px'
+                        minWidth:this.iframe.border===1 ?'414px':'934px',
+                        minHeight:this.iframe.border===1 ?'715px':'575px'
                     }}
                     closable={false}
                     maskClosable={false}
@@ -259,7 +274,8 @@ export default class Content extends Component<Props, State> {
                         src={this.iframe.src}
                         className={this.iframe.className}
                         title={this.iframe.title}
-                        allow="autoplay"
+                        allow={Global.mode === 'online' ? "autoplay" :''}
+                        // sandbox={"allow-same-origin allow-scripts"}
                         style={Object.assign(
                             {
                                 padding: 0,
@@ -270,7 +286,8 @@ export default class Content extends Component<Props, State> {
                                 width:  this.iframe.border===1  ?this.iframe.width-10+"px" :this.iframe.width-40+"px",
                                 maxHeight: "80vh",
                                 maxWidth: "80vw",
-                                minWidth:this.iframe.border===1 ?'180px':'894px'
+                                minWidth:this.iframe.border===1 ?'384px':'894px',
+                                minHeight:this.iframe.border===1 ?'695px':'500px'
                             },
                             this.iframe.style
                         )}
@@ -280,7 +297,23 @@ export default class Content extends Component<Props, State> {
                                 ref={progress => (this.progress = progress)} 
                     />
 
-                    <div className="position-bottom" onClick={() => this.onClose()}>
+                    {
+                        this.state.showAlert ? (<div className="position-Alert">
+                        <div className="position-Alert-font">
+                        直接关闭游戏有可能造成游戏币还留在游戏中，不能正常返回首页余额，确定要关闭吗？
+                        （可以点击游戏中的退出，正常退出游戏，游戏币将正常返回首页余额。）
+                        </div>
+                        <div className="position-Alert-btn">
+                            <div className="position-Alert-ok" onClick={() => {
+                                this.onCancleAlert();
+                                this.onClose()
+                            }}>确认</div>
+                            <div className="position-Alert-cancle" onClick={() => this.onCancleAlert()}>取消</div>
+                        </div>
+                    </div> ):''
+                    }
+
+                    <div className="position-bottom" onClick={() => this.onShowAlert()}>
                         {/* <Button type="primary" ghost onClick={() => this.randomGame()}>
                             下一个游戏
                         </Button> */}

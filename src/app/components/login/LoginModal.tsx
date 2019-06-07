@@ -323,18 +323,34 @@ export default class LoginModal extends Component<Props, State> {
                     return this.error("PACKAGE不能为空!");
                 case 521:
                     return this.error("OS不能为空!");
+                case 523:
+                    return this.error("帐号类型无效!");
+                case 522:
+                    return this.error("渠道组不存在!");
+                case 524:
+                    return this.error("手机号不存在!");
                 case 514:
                     return this.error("账号不存在!");
                 case 515:
                     return this.error("密码不正确!");
+                case 516:
+                    return this.error("用户缓存不存在!");
+                case 517:
+                    return this.error("账号非法!");
+                case 519:
+                    return this.error("代理缓存不存在!");
+                case 518:
+                    return this.error("上级代理缓存不存在!");
                 default:
                     return this.error(`账号异常!${login.data.code}`);
             }
         }
 
         let user = login.data.msg;
-
+        
         Storage.setUserInfo(user);
+
+        Storage.setGameAccount(user.account.game.account);
 
         this.app.login();
 

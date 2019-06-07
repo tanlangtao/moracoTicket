@@ -1,7 +1,7 @@
-import { UserInfo } from "../../interface/User";
-
+import { UserInfo,Account } from "../../interface/User";
 class Storage {
     setUserInfo(user: UserInfo) {
+        console.log('setUserInfo',user)
         localStorage.setItem("userInfo", JSON.stringify(user));
     }
 
@@ -9,6 +9,20 @@ class Storage {
         localStorage.removeItem("userInfo");
     }
 
+    setGameAccount(gameAccount:any){
+        console.log('gameAccount',gameAccount)
+        localStorage.setItem("gameAccount", JSON.stringify(gameAccount));
+    }
+
+    getGameAccount(){
+        let userInfoString = JSON.stringify({
+            account: {
+
+            } 
+        });
+
+        return JSON.parse(localStorage.getItem("gameAccount") || userInfoString) as Account;
+    }
     getUserInfo(): UserInfo {
         let userInfoString = JSON.stringify({
             game_user: {},

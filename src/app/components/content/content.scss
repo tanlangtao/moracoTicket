@@ -228,7 +228,62 @@
     }
    
 }
-
+.position-Alert{
+    position: absolute;
+    top:30%;
+    left: 50%;
+    margin-left: -150px;
+    width: 300px;
+    height: 200px;
+    background: url(../../../assets/login/frame_02.png);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    font-family: "Microsoft YaHei";
+    .position-Alert-font{
+        width: 280px;
+        height: 150px;
+        padding: 10px;
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+    }
+    .position-Alert-btn{
+        width: 280px;
+        height: 50px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        color: white;
+        font-weight: bold;
+        .position-Alert-ok{
+            background: url(../../../assets/login/frame04.png);
+            width: 80px;
+            height: 35px;
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+        .position-Alert-cancle{
+            background: url(../../../assets/login/frame04.png);
+            width: 80px;
+            height: 35px;
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+    }
+    
+    
+}
 .position-bottom {
     position: absolute;
     top: -15px;

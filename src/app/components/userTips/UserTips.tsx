@@ -40,7 +40,9 @@ class UserTips extends Component<Props, State> {
             }
         });
     }
-
+    reload(){
+       window.location.reload()
+    }
     hiddemModal() {
         this.setState({ showLogin: false });
     }
@@ -102,7 +104,7 @@ class UserTips extends Component<Props, State> {
                     <div className="left">{welcome}</div>
                     <div className="right">
                         <div className="balance">金币余额: {balance}</div>
-                        <div className="refresh">刷新</div>
+                        <div className="refresh" onClick={()=>this.reload()} >刷新</div>
                         <Icon className="eye" src={require("../../../assets/hall/visible.png")} />
                         <div className="top-up" onClick={()=>this.openPay()}>充值</div>
                         <div className="top-down"  onClick={()=>this.openCash()}>提款</div>
