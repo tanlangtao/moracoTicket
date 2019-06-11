@@ -329,6 +329,8 @@ export default class LoginModal extends Component<Props, State> {
                     return this.error("渠道组不存在!");
                 case 524:
                     return this.error("手机号不存在!");
+                case 525: 
+                    return this.error("角色名不存在!");
                 case 514:
                     return this.error("账号不存在!");
                 case 515:

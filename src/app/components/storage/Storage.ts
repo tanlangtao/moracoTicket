@@ -16,12 +16,17 @@ class Storage {
 
     getGameAccount(){
         let userInfoString = JSON.stringify({
-            account: {
-
-            } 
+            account: {}
         });
-
-        return JSON.parse(localStorage.getItem("gameAccount") || userInfoString) as Account;
+        let gameAccount = localStorage.getItem("gameAccount")||userInfoString;
+        if (gameAccount===undefined){
+            return JSON.parse(gameAccount);
+        }else{
+            return {};
+        }
+        
+        
+        
     }
     getUserInfo(): UserInfo {
         let userInfoString = JSON.stringify({
@@ -30,8 +35,9 @@ class Storage {
             prev_proxy: {},
             account: { game: { account: {} } }
         });
+        let userInfostring2= localStorage.getItem("userInfo") || userInfoString
 
-        return JSON.parse(localStorage.getItem("userInfo") || userInfoString) as UserInfo;
+        return JSON.parse(userInfostring2) as UserInfo;
     }
 
     setUUID(uuid: string) {

@@ -107,9 +107,10 @@ export default class Socket {
 
     onmessage(e) {
         // 事件触发器
+        console.log(e)
         try {
             let message = JSON.parse(e.data);
-
+           
             if (message.event && message.event in this.event) {
                 this.event[message.event].call(this, this, message.data, message.event);
             }

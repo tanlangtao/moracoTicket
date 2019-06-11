@@ -189,33 +189,6 @@ export default class Content extends Component<Props, State> {
                 </div>
              })
         }
-        // let account = Global.userInfo.account.game.account;
-        // let game_type_1 = null;
-        // if (!account || Object.keys(account).length === 0){
-        //     game_type_1 = Global.gameList.sort((a, b) => b.sort - a.sort).map((e, i) => {
-    
-        //         return <div onClick={() => this.onGame(e)} key={i}>
-        //             <Icon src={e.web_game_img} className="game" />
-        //         </div>
-        //     })
-        // }else{
-            // if (!account || Object.keys(account).length === 0) return null
-            // game_type_1 = Global.gameList.sort((a, b) => b.sort - a.sort).map((e, i) => {
-            
-            //     if (!account[e.game_id]) account[e.game_id] = {}
-    
-            //     return <div onClick={() => this.onGame(e)} key={i}>
-            //         <Icon src={e.web_game_img} className="game" />
-            //         {
-            //             (account[e.game_id].balance + account[e.game_id]!.banker_balance).toFixed(2)>0 ?<div className="lockMoney" ><span role='img'>🔒</span>{
-            //                 (account[e.game_id]!.balance+account[e.game_id]!.banker_balance).toFixed(2)
-            //             }</div>:''
-            //         }
-            //     </div>
-            // })
-        // }
-        console.log(Global)
-        
         return (
             <div className="content">
                 <RightFixed app={this.app}/>

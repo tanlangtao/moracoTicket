@@ -107,8 +107,8 @@ export default class Index extends Component<RouterProps, State> {
     }
 
     updateGameUser(data: any) {
+        console.log(data)
         if (!data && data.code !== 200) return false;
-        console.log('updateGameUser,接收到data',data)
         let gameUser = data.msg.game_user;
         // eslint-disable-next-line
         this.state.userInfo.game_user = gameUser;
@@ -126,10 +126,9 @@ export default class Index extends Component<RouterProps, State> {
             this.state.userInfo.account.game.account[gameId] = gameAccount;
             
         }
-
+        console.log('this.state.userInfo ',this.state.userInfo )
         this.setState({ userInfo: this.state.userInfo },()=>{
             //刷新本地存储
-            console.log('刷新本地存储')
             Storage.setUserInfo(this.state.userInfo )
             Storage.setGameAccount(this.state.userInfo.account.game.account )
         });
@@ -137,6 +136,7 @@ export default class Index extends Component<RouterProps, State> {
 
     componentDidMount() {
         this.login();
+        let gameAccount = Storage.getGameAccount();
 
         window.addEventListener("message", this.onPostMessage.bind(this), false);
 
