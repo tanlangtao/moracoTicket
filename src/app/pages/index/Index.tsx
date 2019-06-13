@@ -92,7 +92,7 @@ export default class Index extends Component<RouterProps, State> {
         });
 
         this.socket.addListener("/GameServer/GameUser/changeGameUserBalance", (ws: any, data: any) => {
-            console.log('changeGameUserBalance',data)
+            if(!data.msg.game_user) return;
             this.updateGameUser(data);
             message.info("你的余额已更新!!!");
         });
@@ -107,7 +107,6 @@ export default class Index extends Component<RouterProps, State> {
     }
 
     updateGameUser(data: any) {
-        console.log(data)
         if (!data && data.code !== 200) return false;
         let gameUser = data.msg.game_user;
         // eslint-disable-next-line
@@ -212,7 +211,7 @@ export default class Index extends Component<RouterProps, State> {
                     package_ids: { $elemMatch: { $eq: this.state.userInfo.game_user.package_id } },
                     is_open: 1,
                     start_time: { $lte: time },
-                    end_time: { $lte: time + 3600 * 24 * day }
+                    end_time: { $gte: time }
                 })
             })
         ).catch(e => console.log(e));
@@ -243,7 +242,7 @@ export default class Index extends Component<RouterProps, State> {
             notices.push(notice);
 
             if (e.is_slider === 1) {
-                let noticeVal = `${e.title}:${e.words}`;
+                let noticeVal = `${e.words}`;
                 sliders.push({
                     type: 1, // 1 系统 2 游戏
                     notice: noticeVal.replace(/\s+/g,"")
