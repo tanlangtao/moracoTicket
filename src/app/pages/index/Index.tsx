@@ -224,7 +224,7 @@ export default class Index extends Component<RouterProps, State> {
 
         let sliders :any = [];
 
-        msgs.forEach((e:any, i:number) => {
+        msgs.sort((a:any,b:any)=>a.sort-b.sort).forEach((e:any, i:number) => {
             let notice = {
                 key:0,
                 isShow:0,
