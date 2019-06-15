@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Header from "../../components/header/Header";
-import {im} from "../../components/header/Header";
+import {im,house} from "../../components/header/Header";
 import UserTips from "../../components/userTips/UserTips";
 import Banner from "../../components/banner/Banner";
 import Content from "../../components/content/Content";
@@ -171,6 +171,15 @@ export default class Index extends Component<RouterProps, State> {
                         im(this.header);
                     }
                     clearTimeout(timer)
+                },500)
+                break;
+            case "__onhouse":
+                this.header!.onClose();
+                let timer2 = setTimeout(()=>{
+                    if(this.header){
+                        house(this.header);
+                    }
+                    clearTimeout(timer2)
                 },500)
                 break;
             case '__openLink':
