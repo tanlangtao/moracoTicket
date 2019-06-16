@@ -63,7 +63,7 @@ export default class Index extends Component<RouterProps, State> {
     webSocketListen() {
         let self = this;
         this.socket.addListener("/Game/login/login", (ws: any, data: any) => {
-            console.log(data);
+           
             self.getNotice();
         });
 
@@ -82,12 +82,12 @@ export default class Index extends Component<RouterProps, State> {
 
         this.socket.addListener("/GameServer/GameUser/loginout", (ws: any, data: any) => {
             console.log('loginout',data)
-            console.log(Global.userInfo)
             this.updateGameUser(data);
             
         });
 
         this.socket.addListener("/GameServer/GameUser/login", (ws: any, data: any) => {
+            console.log('login',data);
             this.updateGameUser(data);
         });
 
@@ -111,7 +111,8 @@ export default class Index extends Component<RouterProps, State> {
         let gameUser = data.msg.game_user;
         // eslint-disable-next-line
         this.state.userInfo.game_user = gameUser;
-        let gameAccount = Storage.getGameAccount()
+        let gameAccount = Storage.getGameAccount();
+        console.log('gameAccount',gameAccount)
         Global.userInfo.account.game={
             account:gameAccount
         }
@@ -125,7 +126,6 @@ export default class Index extends Component<RouterProps, State> {
             this.state.userInfo.account.game.account[gameId] = gameAccount;
             
         }
-        console.log('this.state.userInfo ',this.state.userInfo )
         this.setState({ userInfo: this.state.userInfo },()=>{
             //刷新本地存储
             Storage.setUserInfo(this.state.userInfo )
