@@ -85,7 +85,7 @@ export default class Content extends Component<Props, State> {
         this.currentGame = game;
 
         let serverURL = game!.game_host[0];
-
+        
         let info = btoa(
             JSON.stringify({
                 id: Global.userInfo.game_user.id,
@@ -236,7 +236,7 @@ export default class Content extends Component<Props, State> {
                         maxWidth: "80vw",
                         padding: this.iframe.border===1 ? '10px 4px 5px 4px':'34px 23px 43px 20px',
                         margin: 0 ,
-                        minWidth:this.iframe.border===1 ?'414px':'934px',
+                        minWidth:this.iframe.border===1 ?'414px':'995px',
                         minHeight:this.iframe.border===1 ?'715px':'575px'
                     }}
                     closable={false}
@@ -259,7 +259,7 @@ export default class Content extends Component<Props, State> {
                                 width:  this.iframe.border===1  ?this.iframe.width-10+"px" :this.iframe.width-40+"px",
                                 maxHeight: "80vh",
                                 maxWidth: "80vw",
-                                minWidth:this.iframe.border===1 ?'384px':'894px',
+                                minWidth:this.iframe.border===1 ?'384px':'960px',
                                 minHeight:this.iframe.border===1 ?'695px':'500px'
                             },
                             this.iframe.style

@@ -93,5 +93,28 @@
         }
         
     }
-    
+    .erweima-box{
+        position: relative;
+        width: 140px;
+        height: 150px;
+        left: -140px;
+        top: -165px;
+        padding: 2px;
+        .erweima-box-font{
+            font-family: "Microsoft YaHei";
+            color: black;
+            font-size: 15px;
+            background: white;
+            display: block;
+            width: 100%;
+            height: 20%;
+            text-align: center; 
+            line-height: 25px;
+            text-decoration: underline;
+        }
+        .erweima-box-img{
+            width: 100%;
+            height: 80%;
+        }
+    }
 }

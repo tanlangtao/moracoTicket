@@ -243,6 +243,7 @@ const topDown = (app: Header) => {
         `${url}` +
         `?version=${Global.package.desktop.pay_version}` +
         `&host=${Global.hostManager.payHost}` +
+        `&imHost=${Global.hostManager.imHost}` +
         `&client=${Global.os}` +
         `&user_id=${Global.userInfo.game_user.id}` +
         `&user_name=${Global.userInfo.game_user.game_nick}` +
@@ -270,6 +271,7 @@ const topUp = (app: Header) => {
         `${url}` +
         `?version=${Global.package.desktop.pay_version}` +
         `&host=${Global.hostManager.payHost}` +
+        `&imHost=${Global.hostManager.imHost}` +
         `&client=${Global.os}` +
         `&user_id=${Global.userInfo.game_user.id}` +
         `&user_name=${Global.userInfo.game_user.game_nick}` +
