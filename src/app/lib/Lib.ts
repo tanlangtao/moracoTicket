@@ -1,6 +1,4 @@
 
-import { Params } from "../interface/Params";
-import { Package } from "../interface/Package";
 
 export function createObject(dotString: string, value: any) {
     let array = dotString.split(".");
@@ -60,19 +58,4 @@ export function parseQueryString(path: string) {
         .map((e: any) => e.split("="))
         .forEach(e => (arr[e[0]] = e[1]));
     return arr;
-}
-
-export function parseURL(str: string) {
-    try {
-        let jsonString = decodeURIComponent(atob(str));
-
-        let queryString = parseQueryString("?" + jsonString);
-
-        let params = JSON.parse(queryString.params) as Params;
-        let packageInfo = JSON.parse(queryString.package_info) as Package;
-
-        return { params, packageInfo };
-    } catch (error) {
-        return false;
-    }
 }

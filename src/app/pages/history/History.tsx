@@ -1,21 +1,22 @@
 import React, { Component } from "react";
 import Header from "../../components/header/Header";
 import Banner from "../../components/banner/Banner";
-import Content from "../../components/content/Content";
+import HistoryContent from "../../components/content/HistoryContent";
 import Footer from "../../components/footer/Footer";
-import { RouterProps } from "react-router";
 
+type Props = {};
 type State = {};
 
-export default class Index extends Component<RouterProps, State> {
-
+export default class History extends Component<Props, State> {
+    
+   
     render() {
         return (
             <div className="index">
-                <Header app={this} />
+                <Header app={this}  />
                 <Banner app={this} />
-                <Content app={this} />
-                <Footer top='1550px'/>  
+                <HistoryContent  />
+                <Footer top='1000px'/>  
             </div>
         );
     }
