@@ -15,7 +15,7 @@
         "@types/react-router-dom": "^4.3.3",
         "animejs": "^3.0.1",
         "antd": "^3.17.0",
-        "axios": "^0.18.0",
+        "axios": "^0.21.1",
         "babel-plugin-import": "^1.11.0",
         "bluebird": "^3.5.4",
         "customize-cra": "^0.2.12",
